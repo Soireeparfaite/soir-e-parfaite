@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Soirée Parfaite ✨ - Crée ton programme de rêve</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <style>
+    /* RESET + BASE */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364);
+      background-size: 400% 400%;
+      animation: gradient 12s ease infinite;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      transition: background 0.6s ease-in-out;
+    }
+     h1, h2, h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; text-align: center; }
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 0 10px #ff758c;
+    }
+    main {
+      width: 100%;
+      max-width: 1000px;
+      background: rgba(0,0,0,0.6);
+      border-radius: 25px;
+      max-width: 1100px;
+      background: rgba(0,0,0,0.7);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    }
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #ffccd5;
+    }
+    input[type="time"], input[type="number"], input[type="text"], select {
+      width: 100%;
+      max-width: 400px;
+      margin-top: 10px;
+      padding: 12px 18px;
+      border-radius: 30px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #333;
+      outline: none;
+      transition: box-shadow 0.3s ease;
+    }
+    select:focus, input:focus {
+      box-shadow: 0 0 10px #ff758c;
+    }
+    button {
+      margin-top: 25px;
+      padding: 14px 32px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 1rem;
+      background: #ff758c;
+      color: white;
+      border: none;
+      box-shadow: 0 4px 12px rgba(255,117,140,0.5);
+      cursor: pointer; 
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background: #ff4a6e;
+      box-shadow: 0 6px 20px rgba(255,74,110,0.6);
+    }
+    #menu {
+      margin-top: 30px;
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+    .activity-card {
+      background: #fdfdfd;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(94, 70, 70, 0.329);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .activity-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(255,117,140,0.7);
+    }
+    .activity-link { font-weight: bold; color: #eecece; }
+    .activity-time { font-weight: bold; color: #ff0077; }
+    .activity-desc { margin-top: 8px; font-size: 1rem; color: #ffccd5; }
+    .activity-price { font-weight: bold; color: #070707; margin-top: 10px; }
+    .activity-rating { margin-top: 6px; color: #080808; }
+    .activity-note { margin-top: 6px; font-style: italic; color: #030303; }
+    .activity-map { margin-top: 12px; border-radius: 12px; overflow: hidden; }
+    .activity-phone { font-size: 0.9rem; color: #080808; margin-top: 5px; }
+    #budget {
+      margin-top: 25px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.3rem;
+      color: #f7d488;
+      text-shadow: 0 0 8px #f7d48888;
+    }
+    #pagination {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    #pagination button {
+      background: #ff758c;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 1rem;
+      box-shadow: 0 4px 10px rgba(255,117,140,0.4);
+    }
+    #pagination button:hover:not(:disabled) {
+      background: #ff4a6e;
+      box-shadow: 0 6px 15px rgba(255,74,110,0.6);
+    }
+    #pagination button:disabled {
+      background: #444;
+      cursor: default;
+      box-shadow: none;
+    }
+    @media(max-width: 600px) {
+      main { padding: 20px 15px; }
+    }
+  </style>
+</head>
+<body>
+  <header>Soirée Parfaite ✨<br><small>Crée ton programme de rêve</small></header>
+  <main>
+    <label for="theme">Choisis ton ambiance :</label>
+    <select id="theme" onchange="changeTheme()">
+      <option value="romantique">Romantique</option>
+      <option value="sportive">Sportive</option>
+      <option value="originale">Originale</option>
+      <option value="anniversaire">Anniversaire</option>
+      <option value="bar">Bar/Branchée</option>
+      <option value="chill">Chill</option>
+    </select>
+    <label for="people">Nombre de personnes :</label>
+    <input type="number" id="people" min="1" value="2" />
+    <label for="location">Ville :</label>
+    <input type="text" id="location" placeholder="Nice, Paris..." />
+    <label for="budget">Budget maximum (€) :</label>
+    <input type="number" id="maxBudget" min="0" value="100" />
+    <label for="start">Heure de départ :</label>
+    <input type="time" id="start" />
+    <label for="end">Heure de fin :</label>
+    <input type="time" id="end" />
+    <button onclick="generateMenu()">Génère ma soirée 🎉</button>
+    <div id="budget"></div>
+    <div id="menu"></div>
+    <div id="pagination"></div>
+  </main>
+<script>
+const backgrounds = {
+  romantique: "linear-gradient(135deg, #0f2027, #ff758c, #2c5364)",
+  sportive: "linear-gradient(135deg, #003973, #E5E5BE)",
+  originale: "linear-gradient(135deg, #8360c3, #2ebf91)",
+  anniversaire: "linear-gradient(135deg, #ffafbd, #ffc3a0)",
+  bar: "linear-gradient(135deg, #614385, #516395)",
+  chill: "linear-gradient(135deg, #70e1f5, #ffd194)"
+};
+
+const activities = {
+  romantique: [
+    {
+      time: "19:00",
+      desc: "Dîner romantique au restaurant \"Le Plongeoir\", perché sur un rocher avec vue mer.",
+      phone: "04 93 55 81 24",
+      link: "https://www.leplongeoir.com",
+      price: 80,
+      rating: 4.8,
+      lat: 43.6790,
+      lng: 7.2580,
+      note: "Ambiance unique pour une soirée inoubliable."
+    },
+    {
+      time: "20:00",
+      desc: "Balade en calèche au coucher de soleil sur la Promenade des Anglais.",
+      phone: "04 93 00 45 67",
+      link: "https://calèchenice.com",
+      price: 50,
+      rating: 4.6,
+      lat: 43.6950,
+      lng: 7.2650,
+      note: "Un moment doux et magique à partager."
+    },
+    {
+      time: "21:30",
+      desc: "Concert de jazz intimiste au Caveau du Temple.",
+      phone: "04 93 82 32 52",
+      link: "https://caveaudutemple.fr",
+      price: 35,
+      rating: 4.9,
+      lat: 43.7025,
+      lng: 7.2710,
+      note: "Musique live dans une atmosphère chaleureuse."
+    },
+    {
+      time: "18:30",
+      desc: "Croisière romantique au coucher du soleil avec dîner inclus.",
+      phone: "04 93 12 34 56",
+      link: "https://croisiere-nice.com",
+      price: 120,
+      rating: 4.9,
+      lat: 43.6900,
+      lng: 7.2800,
+      note: "Une expérience inoubliable sur la Méditerranée."
+    },
+    {
+    time: "20:30",
+    desc: "Pique-nique romantique au Parc du Château avec vue panoramique sur Nice.",
+    phone: "04 93 88 99 01",
+    link: "https://nice-picnique.fr",
+    price: 15,
+    rating: 4.7,
+    lat: 43.7037,
+    lng: 7.2683,
+    note: "Un moment cosy en plein air."
+  },
+  {
+    time: "22:00",
+    desc: "Balade en bateau privé au clair de lune.",
+    phone: "04 93 88 99 02",
+    link: "https://bateau-clairdelune.fr",
+    price: 150,
+    rating: 4.9,
+    lat: 43.6905,
+    lng: 7.2801,
+    note: "Un luxe exclusif à deux."
+  },
+  {
+    time: "19:30",
+    desc: "Dîner aux chandelles au restaurant \"La Petite Maison\".",
+    phone: "04 93 88 99 13",
+    link: "https://lapetitemaison-nice.com",
+    price: 55,
+    rating: 4.9,
+    lat: 43.6951,
+    lng: 7.2657,
+    note: "Cuisine méditerranéenne raffinée."
+  },
+  {
+    time: "21:00",
+    desc: "Croisière romantique au coucher du soleil.",
+    phone: "04 93 88 99 14",
+    link: "https://croisierenice.fr",
+    price: 120,
+    rating: 4.8,
+    lat: 43.6900,
+    lng: 7.2830,
+    note: "Moments inoubliables sur la mer."
+  },
+  {
+    time: "22:30",
+    desc: "Concert intimiste au \"Théâtre de la Photographie\".",
+    phone: "04 93 88 99 15",
+    link: "https://theatrephoto-nice.fr",
+    price: 35,
+    rating: 4.7,
+    lat: 43.6980,
+    lng: 7.2700,
+    note: "Ambiance feutrée et acoustique parfaite."
+  },
+  {
+    time: "20:00",
+    desc: "Balade en calèche autour de la vieille ville.",
+    phone: "04 93 88 99 29",
+    link: "https://calechenice.fr",
+    price: 40,
+    rating: 4.7,
+    lat: 43.6952,
+    lng: 7.2702,
+    note: "Romantisme à l’ancienne."
+  },
+  {
+    time: "21:00",
+    desc: "Dégustation de chocolat artisanal à \"ChocoDelice\".",
+    phone: "04 93 88 99 30",
+    link: "https://chocodelice-nice.fr",
+    price: 15,
+    rating: 4.8,
+    lat: 43.6978,
+    lng: 7.2689,
+    note: "Plaisirs gourmands pour deux."
+  },
+  {
+    time: "19:00",
+    desc: "Observation des étoiles au parc observatoire du Mont Gros.",
+    phone: "04 93 88 99 31",
+    link: "https://observatoire-nice.fr",
+    price: 10,
+    rating: 4.9,
+    lat: 43.7192,
+    lng: 7.2680,
+    note: "Soirée magique sous les constellations."
+  }
+  ],
+  sportive: [
+    {
+      time: "07:00",
+      desc: "Jogging matinal au Parc Phoenix, cadre naturel et paisible.",
+      phone: "04 93 00 15 00",
+      link: "https://parcphoenix.fr",
+      price: 0,
+      rating: 4.5,
+      lat: 43.6962,
+      lng: 7.2587,
+      note: "Idéal pour commencer la journée en forme."
+    },
+    {
+      time: "10:00",
+      desc: "Escalade à la falaise de Gairaut, accessible aux débutants et confirmés.",
+      phone: "04 93 00 16 01",
+      link: "https://escaladenice.com",
+      price: 30,
+      rating: 4.7,
+      lat: 43.7250,
+      lng: 7.2800,
+      note: "Un spot incontournable pour les amateurs de sensations."
+    },
+    {
+      time: "15:00",
+      desc: "Cours de yoga sur la plage de la Baie des Anges.",
+      phone: "04 93 00 17 02",
+      link: "https://yoganice.fr",
+      price: 25,
+      rating: 4.8,
+      lat: 43.7001,
+      lng: 7.2870,
+      note: "Relaxation et bien-être au bord de l'eau."
+    },
+    {
+      time: "18:00",
+      desc: "Balade à vélo sur la Promenade du Paillon.",
+      phone: "04 93 00 18 03",
+      link: "https://velonice.fr",
+      price: 12,
+      rating: 4.6,
+      lat: 43.6950,
+      lng: 7.2690,
+      note: "Circuit agréable et sécurisé."
+    },
+      {
+    time: "08:00",
+    desc: "Séance de paddle sur la baie des Anges.",
+    phone: "04 93 88 99 03",
+    link: "https://paddlenice.fr",
+    price: 25,
+    rating: 4.8,
+    lat: 43.6970,
+    lng: 7.2830,
+    note: "Équilibre et fun sur l'eau."
+  },
+  {
+    time: "09:30",
+    desc: "Cours de boxe dans le quartier Libération.",
+    phone: "04 93 88 99 04",
+    link: "https://boxenicelib.fr",
+    price: 20,
+    rating: 4.6,
+    lat: 43.7020,
+    lng: 7.2630,
+    note: "Renforcez votre corps et votre esprit."
+  },
+  {
+    time: "07:30",
+    desc: "Course matinale sur la Promenade des Anglais.",
+    phone: "",
+    link: "https://promenade-nice.fr",
+    price: 0,
+    rating: 4.9,
+    lat: 43.6950,
+    lng: 7.2700,
+    note: "Commencez la journée en forme."
+  },
+  {
+    time: "10:00",
+    desc: "Escalade au parc \"Climb’Up\".",
+    phone: "04 93 88 99 16",
+    link: "https://climbup.fr/nice",
+    price: 25,
+    rating: 4.6,
+    lat: 43.7050,
+    lng: 7.2550,
+    note: "Défiez-vous en toute sécurité."
+  },
+  {
+    time: "14:00",
+    desc: "Initiation au roller dans le parc Phoenix.",
+    phone: "04 93 88 99 17",
+    link: "https://parc-phoenix.fr",
+    price: 10,
+    rating: 4.5,
+    lat: 43.6700,
+    lng: 7.2390,
+    note: "Amusement et sport en famille."
+  },
+  {
+    time: "09:00",
+    desc: "Cours de paddle sur la Baie des Anges.",
+    phone: "04 93 88 99 32",
+    link: "https://paddlenice.fr",
+    price: 30,
+    rating: 4.7,
+    lat: 43.6940,
+    lng: 7.2810,
+    note: "Sport nautique et détente."
+  },
+  {
+    time: "11:00",
+    desc: "Tournoi de beach volley sur la plage du Castel.",
+    phone: "04 93 88 99 33",
+    link: "https://beachvolley-nice.fr",
+    price: 0,
+    rating: 4.5,
+    lat: 43.6955,
+    lng: 7.2805,
+    note: "Ambiance conviviale et sportive."
+  },
+  {
+    time: "16:00",
+    desc: "Randonnée au Mont Boron avec vue panoramique.",
+    phone: "",
+    link: "https://randonneenice.fr",
+    price: 0,
+    rating: 4.8,
+    lat: 43.6995,
+    lng: 7.2770,
+    note: "Nature et effort physique."
+  }
+  ],
+  originale: [
+    {
+      time: "14:00",
+      desc: "Atelier création de parfum personnalisé chez \"Les Sens du Sud\".",
+      phone: "04 93 00 20 10",
+      link: "https://lessensdudusud.fr",
+      price: 60,
+      rating: 4.9,
+      lat: 43.7032,
+      lng: 7.2705,
+      note: "Découvrez l'art de composer votre propre fragrance."
+    },
+    {
+      time: "16:00",
+      desc: "Escape game thématique \"Mystère à Nice\".",
+      phone: "04 93 00 21 11",
+      link: "https://escapegamenice.fr",
+      price: 35,
+      rating: 4.7,
+      lat: 43.7000,
+      lng: 7.2690,
+      note: "Résolvez les énigmes en équipe."
+    },
+    {
+      time: "18:00",
+      desc: "Visite guidée street art dans le quartier du Port.",
+      phone: "04 93 00 22 12",
+      link: "https://streetartnice.fr",
+      price: 20,
+      rating: 4.6,
+      lat: 43.7005,
+      lng: 7.2700,
+      note: "Découvrez les œuvres urbaines méconnues."
+    },
+    {
+    time: "17:30",
+    desc: "Atelier de peinture en plein air dans le Vieux Nice.",
+    phone: "04 93 88 99 05",
+    link: "https://atelier-peinture-nice.fr",
+    price: 40,
+    rating: 4.7,
+    lat: 43.6975,
+    lng: 7.2700,
+    note: "Libérez votre créativité."
+  },
+  {
+    time: "19:00",
+    desc: "Initiation à la danse salsa à \"La Casa\".",
+    phone: "04 93 88 99 06",
+    link: "https://lacasa-salsa.fr",
+    price: 30,
+    rating: 4.9,
+    lat: 43.7005,
+    lng: 7.2730,
+    note: "Ambiance chaude et festive."
+  },
+  {
+    time: "18:00",
+    desc: "Escape game \"Le secret de la vieille ville\".",
+    phone: "04 93 88 99 18",
+    link: "https://escapegame-nice.fr",
+    price: 30,
+    rating: 4.8,
+    lat: 43.6970,
+    lng: 7.2705,
+    note: "Enquêtez en équipe."
+  },
+  {
+    time: "20:00",
+    desc: "Atelier cocktail au bar \"Mixologie\".",
+    phone: "04 93 88 99 19",
+    link: "https://mixologie-nice.fr",
+    price: 25,
+    rating: 4.7,
+    lat: 43.6995,
+    lng: 7.2710,
+    note: "Devenez barman d’un soir."
+  },
+  {
+    time: "21:30",
+    desc: "Projection privée de films cultes en plein air.",
+    phone: "04 93 88 99 20",
+    link: "https://cinepleinair-nice.fr",
+    price: 10,
+    rating: 4.6,
+    lat: 43.6930,
+    lng: 7.2680,
+    note: "Ambiance conviviale sous les étoiles."
+  },
+  {
+    time: "18:30",
+    desc: "Atelier de peinture sur céramique.",
+    phone: "04 93 88 99 34",
+    link: "https://atelierceramique-nice.fr",
+    price: 25,
+    rating: 4.6,
+    lat: 43.6975,
+    lng: 7.2690,
+    note: "Exprimez votre créativité."
+  },
+  {
+    time: "20:00",
+    desc: "Visite nocturne insolite des catacombes de Nice.",
+    phone: "04 93 88 99 35",
+    link: "https://catacombesnice.fr",
+    price: 15,
+    rating: 4.7,
+    lat: 43.6960,
+    lng: 7.2710,
+    note: "Frissons garantis."
+  },
+  {
+    time: "21:00",
+    desc: "Spectacle d’improvisation théâtrale au \"Théâtre Le 13\".",
+    phone: "04 93 88 99 36",
+    link: "https://theatre13nice.fr",
+    price: 20,
+    rating: 4.8,
+    lat: 43.6980,
+    lng: 7.2675,
+    note: "Rires et surprises."
+  }
+  ],
+  anniversaire: [
+    {
+      time: "20:00",
+      desc: "Dîner festif au restaurant \"La Terrasse\" avec menu spécial anniversaire.",
+      phone: "04 93 00 30 20",
+      link: "https://laterrassenice.fr",
+      price: 55,
+      rating: 4.8,
+      lat: 43.7025,
+      lng: 7.2665,
+      note: "Ambiance conviviale et festive."
+    },
+    {
+      time: "22:00",
+      desc: "Soirée dansante au Club \"Le Groove\" avec DJ en live.",
+      phone: "04 93 00 31 21",
+      link: "https://legroovenice.fr",
+      price: 40,
+      rating: 4.7,
+      lat: 43.6990,
+      lng: 7.2710,
+      note: "Dansez toute la nuit pour votre anniversaire."
+    },
+    {
+      time: "21:00",
+      desc: "Karaoké au Bar \"Le Chant\" pour une soirée animée.",
+      phone: "04 93 00 32 22",
+      link: "https://lechantbar.fr",
+      price: 15,
+      rating: 4.5,
+      lat: 43.7035,
+      lng: 7.2730,
+      note: "Chantez vos tubes préférés entre amis."
+    },
+      {
+    time: "21:00",
+    desc: "Soirée privée avec magicien professionnel.",
+    phone: "04 93 88 99 07",
+    link: "https://magicanniversaire.fr",
+    price: 70,
+    rating: 4.8,
+    lat: 43.7030,
+    lng: 7.2695,
+    note: "Spectacle magique et interactif."
+  },
+  {
+    time: "22:30",
+    desc: "Privatisation salle karaoké pour groupe.",
+    phone: "04 93 88 99 08",
+    link: "https://karaokenice.fr",
+    price: 40,
+    rating: 4.6,
+    lat: 43.7010,
+    lng: 7.2715,
+    note: "Chantez jusqu’au bout de la nuit."
+  },
+  {
+    time: "19:00",
+    desc: "Dîner surprise au restaurant \"Le Vintage\".",
+    phone: "04 93 88 99 21",
+    link: "https://levintage-nice.fr",
+    price: 50,
+    rating: 4.7,
+    lat: 43.6960,
+    lng: 7.2660,
+    note: "Décoration spéciale anniversaire."
+  },
+  {
+    time: "22:00",
+    desc: "Soirée DJ privée dans un club branché.",
+    phone: "04 93 88 99 22",
+    link: "https://clubprivatenice.fr",
+    price: 40,
+    rating: 4.8,
+    lat: 43.7000,
+    lng: 7.2750,
+    note: "Musique et danse jusqu’au bout de la nuit."
+  },
+  {
+    time: "23:30",
+    desc: "Bar à desserts pour une fin de soirée gourmande.",
+    phone: "04 93 88 99 23",
+    link: "https://bardesserts-nice.fr",
+    price: 20,
+    rating: 4.6,
+    lat: 43.6990,
+    lng: 7.2700,
+    note: "Douceurs sucrées pour tous."
+  },
+  {
+    time: "18:00",
+    desc: "Escape game personnalisé pour anniversaires.",
+    phone: "04 93 88 99 37",
+    link: "https://escapebirthday-nice.fr",
+    price: 35,
+    rating: 4.9,
+    lat: 43.6955,
+    lng: 7.2705,
+    note: "Activité ludique et collaborative."
+  },
+  {
+    time: "20:00",
+    desc: "Dîner-spectacle au cabaret \"La Belle Étoile\".",
+    phone: "04 93 88 99 38",
+    link: "https://cabaret-belleetoile.fr",
+    price: 60,
+    rating: 4.7,
+    lat: 43.6968,
+    lng: 7.2685,
+    note: "Soirée festive et glamour."
+  },
+  {
+    time: "22:00",
+    desc: "Location de salle privée avec DJ.",
+    phone: "04 93 88 99 39",
+    link: "https://privatesalle-nice.fr",
+    price: 100,
+    rating: 4.6,
+    lat: 43.6990,
+    lng: 7.2710,
+    note: "Fête sur mesure."
+  }
+  ],
+  bar: [
+    {
+      time: "19:30",
+      desc: "Cocktails artisanaux au Bar \"Le Comptoir\".",
+      phone: "04 93 00 40 30",
+      link: "https://barlecomptoir.fr",
+      price: 14,
+      rating: 4.7,
+      lat: 43.7015,
+      lng: 7.2690,
+      note: "Ambiance cosy et carte inventive."
+    },
+    {
+      time: "20:00",
+      desc: "Dégustation de vins locaux au \"Cellier Niçois\".",
+      phone: "04 93 00 41 31",
+      link: "https://celliernice.fr",
+      price: 28,
+      rating: 4.8,
+      lat: 43.7020,
+      lng: 7.2705,
+      note: "Une sélection pointue de crus régionaux."
+    },
+    {
+      time: "22:00",
+      desc: "Soirée DJ électro au Club \"Electra\".",
+      phone: "04 93 00 42 32",
+      link: "https://clubelectra.fr",
+      price: 35,
+      rating: 4.6,
+      lat: 43.7007,
+      lng: 7.2692,
+      note: "Ambiance électrique et festive garantie."
+    },
+    {
+    time: "18:00",
+    desc: "Dégustation de bières artisanales locales.",
+    phone: "04 93 88 99 09",
+    link: "https://biereartisanale-nice.fr",
+    price: 18,
+    rating: 4.7,
+    lat: 43.6990,
+    lng: 7.2720,
+    note: "Saveurs uniques du terroir niçois."
+  },
+  {
+    time: "20:00",
+    desc: "Soirée cocktails tiki au \"Bar Paradis\".",
+    phone: "04 93 88 99 10",
+    link: "https://barparadis.fr",
+    price: 16,
+    rating: 4.8,
+    lat: 43.7008,
+    lng: 7.2698,
+    note: "Ambiance exotique et festive."
+  },
+  {
+    time: "18:30",
+    desc: "Happy hour au \"Pub Irlandais\".",
+    phone: "04 93 88 99 24",
+    link: "https://pubirish-nice.fr",
+    price: 12,
+    rating: 4.7,
+    lat: 43.7005,
+    lng: 7.2705,
+    note: "Ambiance conviviale et bières variées."
+  },
+  {
+    time: "21:00",
+    desc: "Soirée jazz live au \"Blue Note\".",
+    phone: "04 93 88 99 25",
+    link: "https://bluenote-nice.fr",
+    price: 15,
+    rating: 4.8,
+    lat: 43.6985,
+    lng: 7.2690,
+    note: "Musiciens talentueux dans un cadre intime."
+  },
+  {
+    time: "22:30",
+    desc: "Bar à vins avec dégustation commentée.",
+    phone: "04 93 88 99 26",
+    link: "https://baravins-nice.fr",
+    price: 20,
+    rating: 4.6,
+    lat: 43.6965,
+    lng: 7.2680,
+    note: "Découvrez les crus locaux."
+  },
+  {
+    time: "17:30",
+    desc: "Bar à cocktails \"Le Comptoir des Arts\".",
+    phone: "04 93 88 99 40",
+    link: "https://comptoirdesarts.fr",
+    price: 18,
+    rating: 4.8,
+    lat: 43.6950,
+    lng: 7.2690,
+    note: "Créations originales et ambiance cosy."
+  },
+  {
+    time: "20:00",
+    desc: "Soirée karaoké au \"Sing’Bar\".",
+    phone: "04 93 88 99 41",
+    link: "https://singbar-nice.fr",
+    price: 12,
+    rating: 4.6,
+    lat: 43.6970,
+    lng: 7.2670,
+    note: "Amusez-vous entre amis."
+  },
+  {
+    time: "22:30",
+    desc: "Dégustation de bières artisanales.",
+    phone: "04 93 88 99 42",
+    link: "https://beerlover-nice.fr",
+    price: 15,
+    rating: 4.7,
+    lat: 43.6985,
+    lng: 7.2705,
+    note: "Saveurs locales et internationales."
+  }
+  ],
+  chill: [
+    {
+      time: "10:30",
+      desc: "Brunch gourmand au Café Bleu, ambiance calme et chaleureuse.",
+      phone: "04 93 00 50 40",
+      link: "https://cafebleu.fr",
+      price: 22,
+      rating: 4.7,
+      lat: 43.7038,
+      lng: 7.2675,
+      note: "Détente et gourmandise assurées."
+    },
+    {
+      time: "14:00",
+      desc: "Lecture et détente au Jardin Albert 1er.",
+      phone: "04 93 00 51 41",
+      link: "https://jardinalbertnice.fr",
+      price: 0,
+      rating: 4.6,
+      lat: 43.7041,
+      lng: 7.2668,
+      note: "Un havre de paix en plein centre-ville."
+    },
+    {
+      time: "17:00",
+      desc: "Séance de méditation guidée au Centre Zen de Nice.",
+      phone: "04 93 00 52 42",
+      link: "https://zen-nice.fr",
+      price: 15,
+      rating: 4.8,
+      lat: 43.7053,
+      lng: 7.2682,
+      note: "Moment de calme pour se recentrer."
+    },
+    {
+    time: "15:00",
+    desc: "Séance de sieste musicale au Parc des Arènes.",
+    phone: "04 93 88 99 11",
+    link: "https://siestemusicale.fr",
+    price: 10,
+    rating: 4.5,
+    lat: 43.7045,
+    lng: 7.2655,
+    note: "Relaxation au rythme de la musique douce."
+  },
+  {
+    time: "18:00",
+    desc: "Atelier dégustation de thés du monde.",
+    phone: "04 93 88 99 12",
+    link: "https://theduworld-nice.fr",
+    price: 20,
+    rating: 4.7,
+    lat: 43.7050,
+    lng: 7.2680,
+    note: "Une pause détente pleine de saveurs."
+  }, 
+  {
+    time: "16:00",
+    desc: "Salon de thé cosy \"Le Temps d’un Rêve\".",
+    phone: "04 93 88 99 27",
+    link: "https://salondethe-nice.fr",
+    price: 10,
+    rating: 4.7,
+    lat: 43.6955,
+    lng: 7.2695,
+    note: "Pause douceur et tranquillité."
+  },
+  {
+    time: "19:00",
+    desc: "Balade détente au jardin Albert 1er.",
+    phone: "",
+    link: "https://jardinalbert1er-nice.fr",
+    price: 0,
+    rating: 4.5,
+    lat: 43.6975,
+    lng: 7.2698,
+    note: "Nature en ville."
+  },
+  {
+    time: "20:30",
+    desc: "Dégustation de glaces artisanales.",
+    phone: "04 93 88 99 28",
+    link: "https://glacesnice.fr",
+    price: 8,
+    rating: 4.8,
+    lat: 43.6980,
+    lng: 7.2700,
+    note: "Saveurs originales et rafraîchissantes."
+  },  
+  {
+    time: "15:00",
+    desc: "Yoga en plein air au Parc du Château.",
+    phone: "",
+    link: "https://parcduchateau-nice.fr",
+    price: 12,
+    rating: 4.9,
+    lat: 43.6975,
+    lng: 7.2715,
+    note: "Relaxation et bien-être."
+  },
+  {
+    time: "17:00",
+    desc: "Salon de lecture \"La Bibliothèque du Quai\".",
+    phone: "04 93 88 99 43",
+    link: "https://bibliothequeduguay.fr",
+    price: 5,
+    rating: 4.8,
+    lat: 43.6950,
+    lng: 7.2680,
+    note: "Pause calme et culturelle."
+  },
+  {
+    time: "19:30",
+    desc: "Dégustation de thé au salon \"Zen Attitude\".",
+    phone: "04 93 88 99 44",
+    link: "https://zenattitude-nice.fr",
+    price: 10,
+    rating: 4.7,
+    lat: 43.6945,
+    lng: 7.2695,
+    note: "Moments de sérénité."
+  }
+ ],
+};
+
+
+const ITEMS_PER_PAGE = 10;
+let currentActivities = [], currentPage = 1;
+let filtered = [], people = 1;
+let budgetDisplay = null;
+
+function changeTheme() {
+  const theme = document.getElementById("theme").value;
+  document.body.style.background = backgrounds[theme] || backgrounds["romantique"];
+  document.getElementById("menu").innerHTML = "";
+  document.getElementById("budget").innerText = "";
+  document.getElementById("pagination").innerHTML = "";
+}
+
+function generateMenu() {
+  const theme = document.getElementById("theme").value;
+  people = parseInt(document.getElementById("people").value) || 1;
+  const location = document.getElementById("location").value;
+  const maxBudget = parseFloat(document.getElementById("maxBudget").value) || 0;
+  const start = document.getElementById("start").value;
+  const end = document.getElementById("end").value;
+
+  if (!start || !end || end <= start) {
+    alert("Merci d’indiquer des horaires valides.");
+    return;
+  }
+
+  // Filtrer activités en fonction du thème, heure et budget
+  filtered = (activities[theme] || []).filter(a => {
+    return a.time >= start && a.time <= end && (a.price * people) <= maxBudget;
+  });
+
+  if (!filtered.length) {
+    document.getElementById("menu").innerHTML = "<p>Aucune activité ne correspond à votre budget/horaire.</p>";
+    document.getElementById("budget").innerText = "";
+    document.getElementById("pagination").innerHTML = "";
+    return;
+  }
+
+  // Trier par note décroissante
+  filtered.sort((a, b) => b.rating - a.rating);
+
+  currentActivities = filtered;
+  currentPage = 1;
+
+  budgetDisplay = document.getElementById("budget");
+  
+  showPage();
+  showPagination();
+  calculateBudget();
+}
+
+function showPage() {
+  const menu = document.getElementById("menu");
+  menu.innerHTML = "";
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const pageItems = currentActivities.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  pageItems.forEach(a => {
+    const card = document.createElement("div");
+    card.className = "activity-card";
+    card.innerHTML = `
+      <div class="activity-time">${a.time}</div>
+      <div class="activity-desc">
+        ${a.link ? `<a href="${a.link}" target="_blank">${a.desc}</a>` : a.desc}
+        ${a.phone ? `<div class="activity-phone">📞 ${a.phone}</div>` : ""}
+        <div class="activity-note">${a.note}</div>
+      </div>
+      <div class="activity-price">${a.price > 0 ? a.price + " €" : "Gratuit"}</div>
+      <div class="activity-price">Prix total: ${a.price * people} €</div>
+      <div class="activity-rating">Note : ${a.rating}★</div>
+      <div class="activity-map">
+        <iframe width="100%" height="200" frameborder="0" src="https://www.google.com/maps?q=${a.lat},${a.lng}&hl=fr&z=15&output=embed"></iframe>
+      </div>
+    `;
+    menu.appendChild(card);
+  });
+}
+
+function showPagination() {
+  const pag = document.getElementById("pagination");
+  pag.innerHTML = "";
+  const total = Math.ceil(currentActivities.length / ITEMS_PER_PAGE);
+  if (total <= 1) return;
+
+  const navBtn = (txt, fn, disabled) => {
+    const b = document.createElement("button");
+    b.textContent = txt;
+    b.disabled = disabled;
+    b.onclick = fn;
+    pag.appendChild(b);
+  };
+
+  navBtn("← Précédent", () => { if(currentPage > 1) { currentPage--; update(); } }, currentPage === 1);
+  
+  for (let i = 1; i <= total; i++) {
+    navBtn(i, () => { currentPage = i; update(); }, currentPage === i);
+  }
+  
+  navBtn("Suivant →", () => { if(currentPage < total) { currentPage++; update(); } }, currentPage === total);
+
+  function update() {
+    showPage();
+    showPagination();
+    calculateBudget();
+  }
+}
+
+function calculateBudget() {
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const pageItems = currentActivities.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const sum = pageItems.reduce((s, a) => s + (a.price * people), 0);
+  budgetDisplay.textContent = `Budget total sur cette page : ${sum} €`;
+}
+</script>
+</body>
+</html>

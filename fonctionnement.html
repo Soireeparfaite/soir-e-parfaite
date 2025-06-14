@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Soirée Parfaite - Fonctionnement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #ff4a6e;
+      --accent: #f7d488;
+      --dark: #1a1a2e;
+      --light: #f9f9f9;
+      --text-dark: #2c3e50;
+      --radius: 14px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--light);
+      color: var(--text-dark);
+    }
+
+    nav {
+      background: var(--dark);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 30px;
+    }
+
+    nav .logo {
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: var(--accent);
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 24px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    header {
+      background-image: url('https://img.freepik.com/premium-photo/romantic-dinner-young-couple-seashore-generative-ai_446633-38059.jpg');
+      background-size: cover;
+      background-position: center;
+      height: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      padding: 40px;
+      position: relative;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 0;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      z-index: 1;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    section {
+      padding: 60px 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+      color: var(--primary);
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .feature {
+      background: white;
+      padding: 24px;
+      border-radius: var(--radius);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .feature:hover {
+      transform: translateY(-8px);
+    }
+
+    .feature h3 {
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .feature p {
+      font-size: 0.95rem;
+    }
+
+    footer {
+      background: var(--dark);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+    }
+
+    .highlight {
+      background: var(--primary);
+      color: white;
+      padding: 40px;
+      border-radius: var(--radius);
+      text-align: center;
+      margin: 60px auto;
+      max-width: 800px;
+    }
+
+    .highlight p {
+      font-size: 1.1rem;
+    }
+
+    .cta {
+      background: var(--accent);
+      padding: 40px;
+      text-align: center;
+      border-radius: var(--radius);
+      margin-top: 40px;
+    }
+
+    .cta a {
+      background: var(--primary);
+      color: white;
+      padding: 14px 28px;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: var(--radius);
+      transition: background 0.3s;
+    }
+
+    .cta a:hover {
+      background: #e03b5f;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="logo">Soirée Parfaite</div>
+    <ul>
+      <li><a href="ACCEUIL.html">Accueil</a></li>
+      <li><a href="#fonctionnement">Fonctionnement</a></li>
+      <li><a href="#avis">Avis</a></li>
+      <li><a href="generateur.html">Générer un menu</a></li>
+      <li><a href="#">Se connecter</a></li>
+      <li><a href="inscription.html" style="color: var(--accent); font-weight: bold;">Inscription gratuite</a></li>
+    </ul>
+  </nav>
+
+  <header>
+    <h1>Comprendre le fonctionnement de Soirée Parfaite</h1>
+  </header>
+
+  <section id="fonctionnement">
+    <h2 class="section-title">Un concept simple et magique</h2>
+    <div class="features">
+      <div class="feature">
+        <h3>1. Laissez-vous guider</h3>
+        <p>Combien de couples ou de groupes se retrouvent perdus avant une date ou une soirée, sans savoir quoi faire ? Trop. C'est pour cela que Soirée Parfaite existe.</p>
+      </div>
+      <div class="feature">
+        <h3>2. Choisissez votre ambiance</h3>
+        <p>Romantique, sportif, original, anniversaire, chill, marrant, resto ou bar branché... Choisissez votre ambiance, et nous faisons le reste.</p>
+      </div>
+      <div class="feature">
+        <h3>3. Indiquez vos horaires</h3>
+        <p>Donnez votre heure de départ et votre heure de fin. En fonction de votre localisation, on génère un menu d’activités 100% adapté.</p>
+      </div>
+      <div class="feature">
+        <h3>4. Menu personnalisé</h3>
+        <p>Le client peut modifier, échanger ou retirer des suggestions du menu généré, pour une soirée 100% à son image.</p>
+      </div>
+      <div class="feature">
+        <h3>5. Un système d’avis intelligent</h3>
+        <p>Après la soirée, les utilisateurs notent leur menu. Cela permet de recommander les meilleures expériences autour de Nice.</p>
+      </div>
+      <div class="feature">
+        <h3>6. Une base locale riche</h3>
+        <p>Restaurants, rooftops, escape games, bars cachés, expériences insolites... Nous sélectionnons et trions les meilleures adresses.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="highlight">
+    <h2>Notre mission</h2>
+    <p>Offrir aux Niçois (et bientôt à toute la France) des idées de soirées sur-mesure, ludiques, simples à mettre en place, et vraiment inoubliables même à la dernière minute. Fini les moments d’hésitation : votre soirée idéale commence ici.</p>
+  </section>
+
+  <section class="cta">
+    <h2>Générez votre première soirée !</h2>
+    <a href="generateur.html">Essayer maintenant</a>
+  </section>
+
+  <footer>
+    &copy; 2025 Soirée Parfaite. Tous droits réservés.
+  </footer>
+
+</body>
+
+</html>
