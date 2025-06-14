@@ -2,9 +2,9 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Inscription - Soirée Parfaite</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -16,8 +16,8 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
+      position: relative;
     }
-
     .form-container {
       background-color: rgba(255, 255, 255, 0.1);
       padding: 40px;
@@ -26,19 +26,16 @@
       max-width: 400px;
       width: 100%;
     }
-
     h2 {
       margin-bottom: 24px;
       font-weight: 600;
       text-align: center;
     }
-
     label {
       display: block;
       margin-bottom: 6px;
       font-weight: 300;
     }
-
     input[type="text"],
     input[type="email"],
     input[type="password"] {
@@ -49,7 +46,6 @@
       border-radius: 8px;
       font-size: 1rem;
     }
-
     button {
       width: 100%;
       padding: 12px;
@@ -62,24 +58,20 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
-
     button:hover {
       background-color: #e63950;
     }
-
     .login-link {
       margin-top: 16px;
       text-align: center;
       font-size: 0.9rem;
     }
-
     .login-link a {
       color: #f7d488;
       text-decoration: none;
       font-weight: bold;
       cursor: pointer;
     }
-
     #userBadge {
       position: absolute;
       top: 20px;
@@ -94,8 +86,8 @@
       justify-content: center;
       font-weight: bold;
       cursor: pointer;
+      user-select: none;
     }
-
     #userPopup {
       position: absolute;
       top: 70px;
@@ -107,12 +99,11 @@
       display: none;
       width: 250px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      user-select: none;
     }
-
-    #userPopup p {
+    #userPopup p, #userPopup ul {
       margin: 10px 0;
     }
-
     #logoutBtn {
       margin-top: 12px;
       background-color: #e63950;
@@ -126,26 +117,11 @@
   </style>
 </head>
 <body>
-  <div class="form-container">
-    <h2>Créer un compte</h2>
-    <form id="signupForm">
-      <label for="prenom">Prénom</label>
-      <input type="text" id="prenom" name="prenom" required />
-
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" required />
-
-      <label for="password">Mot de passe</label>
-      <input type="password" id="password" name="password" required />
-
-      <button type="submit">Inscription</button>
-    </form>
-    <div class="login-link">
-      Déjà un compte ? <a id="showLogin" href="#">Connectez-vous ici</a>
-    </div>
+  <div class="form-container" id="formContainer">
+    <!-- Form content will be injected here -->
   </div>
 
-  <div id="userBadge" style="display: none;"></div>
+  <div id="userBadge" style="display:none;"></div>
   <div id="userPopup">
     <p id="userEmail"></p>
     <p>Notes données : ⭐⭐⭐⭐☆</p>
@@ -175,58 +151,112 @@
       appId: "1:420267229686:web:0395aa0dea26d5278e07d7",
       measurementId: "G-KKF63BP0P1"
     };
-
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    const form = document.getElementById('signupForm');
+    const formContainer = document.getElementById('formContainer');
     const badge = document.getElementById('userBadge');
     const popup = document.getElementById('userPopup');
     const emailDisplay = document.getElementById('userEmail');
     const logoutBtn = document.getElementById('logoutBtn');
-    const loginLink = document.getElementById('showLogin');
 
-    // Afficher badge et popup avec infos utilisateur
+    // Templates des formulaires (inscription / connexion)
+    const signupFormHTML = `
+      <h2>Créer un compte</h2>
+      <form id="authForm">
+        <label for="prenom">Prénom</label>
+        <input type="text" id="prenom" name="prenom" required />
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required />
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" name="password" required />
+        <button type="submit">Inscription</button>
+      </form>
+      <div class="login-link">
+        Déjà un compte ? <a href="#" id="toggleAuth">Connectez-vous ici</a>
+      </div>
+    `;
+
+    const loginFormHTML = `
+      <h2>Connexion</h2>
+      <form id="authForm">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required />
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" name="password" required />
+        <button type="submit">Se connecter</button>
+      </form>
+      <div class="login-link">
+        Pas encore de compte ? <a href="#" id="toggleAuth">Inscrivez-vous ici</a>
+      </div>
+    `;
+
+    let isLoginMode = false;
+
+    // Affiche le formulaire correspondant (signup ou login)
+    function renderForm() {
+      if(isLoginMode) {
+        formContainer.innerHTML = loginFormHTML;
+      } else {
+        formContainer.innerHTML = signupFormHTML;
+      }
+      const toggleLink = document.getElementById('toggleAuth');
+      toggleLink.addEventListener('click', e => {
+        e.preventDefault();
+        isLoginMode = !isLoginMode;
+        renderForm();
+      });
+
+      const authForm = document.getElementById('authForm');
+      authForm.addEventListener('submit', handleAuthSubmit);
+    }
+
+    // Affiche badge utilisateur
     function showUserBadge(prenom, email) {
       badge.style.display = 'flex';
-      badge.textContent = prenom[0].toUpperCase();
+      badge.textContent = prenom ? prenom[0].toUpperCase() : '?';
       emailDisplay.textContent = `Email : ${email}`;
     }
 
-    // Formulaire inscription
-    form.addEventListener('submit', async function(e) {
+    // Gère l'envoi du formulaire inscription / connexion
+    async function handleAuthSubmit(e) {
       e.preventDefault();
-      const prenom = form.prenom.value.trim();
-      const email = form.email.value.trim();
-      const password = form.password.value;
+      const formData = new FormData(e.target);
+      const email = formData.get('email').trim();
+      const password = formData.get('password');
+      const prenom = formData.get('prenom') ? formData.get('prenom').trim() : '';
 
       try {
-        // Créer utilisateur Firebase
-        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-        const user = userCredential.user;
-
-        // Stocker prénom dans Firestore sous document user.uid
-        await db.collection('users').doc(user.uid).set({ prenom: prenom });
-
-        // Afficher badge et masquer formulaire
-        showUserBadge(prenom, email);
-        form.style.display = 'none';
-        loginLink.style.display = 'none';
+        if (isLoginMode) {
+          // Connexion
+          const userCredential = await auth.signInWithEmailAndPassword(email, password);
+          const user = userCredential.user;
+          const doc = await db.collection('users').doc(user.uid).get();
+          const storedPrenom = doc.exists ? doc.data().prenom : '';
+          showUserBadge(storedPrenom, user.email);
+          formContainer.style.display = 'none';
+        } else {
+          // Inscription
+          const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+          const user = userCredential.user;
+          await db.collection('users').doc(user.uid).set({ prenom: prenom });
+          showUserBadge(prenom, email);
+          formContainer.style.display = 'none';
+        }
       } catch (error) {
-        alert("Erreur inscription : " + error.message);
+        alert("Erreur : " + error.message);
       }
-    });
+    }
 
     // Gestion déconnexion
     logoutBtn.addEventListener('click', async () => {
       await auth.signOut();
       badge.style.display = 'none';
       popup.style.display = 'none';
-      form.style.display = 'block';
-      loginLink.style.display = 'block';
-      form.reset();
+      formContainer.style.display = 'block';
+      isLoginMode = false;
+      renderForm();
     });
 
     // Afficher/masquer popup user au clic sur badge
@@ -234,92 +264,26 @@
       popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
     });
 
-    // Formulaire connexion (affiché en cliquant sur lien "Connectez-vous ici")
-    loginLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      if(form.style.display !== 'none') {
-        // Passer en mode connexion (changer formulaire)
-        form.innerHTML = `
-          <h2>Connexion</h2>
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required />
-          <label for="password">Mot de passe</label>
-          <input type="password" id="password" name="password" required />
-          <button type="submit">Se connecter</button>
-          <div class="login-link">
-            Pas encore de compte ? <a id="showSignup" href="#">Inscrivez-vous ici</a>
-          </div>
-        `;
-
-        // Lien pour revenir à inscription
-        document.getElementById('showSignup').addEventListener('click', e => {
-          e.preventDefault();
-          location.reload();
-        });
-
-        // Re-bind listener connexion
-        form.removeEventListener('submit', registerHandler);
-        form.addEventListener('submit', loginHandler);
-      }
-    });
-
-    // Handler inscription (externe pour pouvoir enlever proprement)
-    async function registerHandler(e) {
-      e.preventDefault();
-      const prenom = form.prenom.value.trim();
-      const email = form.email.value.trim();
-      const password = form.password.value;
-      try {
-        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-        const user = userCredential.user;
-        await db.collection('users').doc(user.uid).set({ prenom: prenom });
-        showUserBadge(prenom, email);
-        form.style.display = 'none';
-        loginLink.style.display = 'none';
-      } catch (error) {
-        alert("Erreur inscription : " + error.message);
-      }
-    }
-
-    // Handler connexion
-    async function loginHandler(e) {
-      e.preventDefault();
-      const email = form.email.value.trim();
-      const password = form.password.value;
-      try {
-        const userCredential = await auth.signInWithEmailAndPassword(email, password);
-        const user = userCredential.user;
-        // Récupérer prénom depuis Firestore
-        const doc = await db.collection('users').doc(user.uid).get();
-        const prenom = doc.exists ? doc.data().prenom : '';
-        showUserBadge(prenom, email);
-        form.style.display = 'none';
-        loginLink.style.display = 'none';
-      } catch (error) {
-        alert("Erreur connexion : " + error.message);
-      }
-    }
-
-    // Par défaut bind inscription
-    form.addEventListener('submit', registerHandler);
-
-    // On load, vérifier si utilisateur connecté
+    // Vérification état connexion au chargement
     auth.onAuthStateChanged(async (user) => {
-      if (user) {
+      if(user) {
         // User connecté : récupérer prénom
         const doc = await db.collection('users').doc(user.uid).get();
-        const prenom = doc.exists ? doc.data().prenom : '';
-        showUserBadge(prenom, user.email);
-        form.style.display = 'none';
-        loginLink.style.display = 'none';
+        const storedPrenom = doc.exists ? doc.data().prenom : '';
+        showUserBadge(storedPrenom, user.email);
+        formContainer.style.display = 'none';
       } else {
         badge.style.display = 'none';
         popup.style.display = 'none';
-        form.style.display = 'block';
-        loginLink.style.display = 'block';
+        formContainer.style.display = 'block';
+        isLoginMode = false;
+        renderForm();
       }
     });
 
+    // Démarrage
+    renderForm();
   </script>
 </body>
 </html>
+
