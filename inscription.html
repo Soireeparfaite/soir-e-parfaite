@@ -77,6 +77,7 @@
       color: #f7d488;
       text-decoration: none;
       font-weight: bold;
+      cursor: pointer;
     }
 
     #userBadge {
@@ -140,7 +141,7 @@
       <button type="submit">Inscription</button>
     </form>
     <div class="login-link">
-      Déjà un compte ? <a href="#">Connectez-vous ici</a>
+      Déjà un compte ? <a id="showLogin" href="#">Connectez-vous ici</a>
     </div>
   </div>
 
@@ -158,52 +159,167 @@
     <button id="logoutBtn">Déconnexion</button>
   </div>
 
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
   <script>
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyAPO0hI2RsAbZXSgw99shs8JO9_UbMbc5E",
+      authDomain: "soiree-parfaite.firebaseapp.com",
+      projectId: "soiree-parfaite",
+      storageBucket: "soiree-parfaite.appspot.com",
+      messagingSenderId: "420267229686",
+      appId: "1:420267229686:web:0395aa0dea26d5278e07d7",
+      measurementId: "G-KKF63BP0P1"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
     const form = document.getElementById('signupForm');
     const badge = document.getElementById('userBadge');
     const popup = document.getElementById('userPopup');
     const emailDisplay = document.getElementById('userEmail');
     const logoutBtn = document.getElementById('logoutBtn');
+    const loginLink = document.getElementById('showLogin');
 
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const prenom = form.prenom.value;
-      const email = form.email.value;
-      const password = form.password.value;
-
-      // Simuler une base de données avec localStorage (remplacer plus tard par Firebase ou API)
-      localStorage.setItem('userPrenom', prenom);
-      localStorage.setItem('userEmail', email);
-      localStorage.setItem('userPassword', password);
-
-      showUserBadge(prenom, email);
-      form.style.display = 'none';
-    });
-
+    // Afficher badge et popup avec infos utilisateur
     function showUserBadge(prenom, email) {
       badge.style.display = 'flex';
       badge.textContent = prenom[0].toUpperCase();
       emailDisplay.textContent = `Email : ${email}`;
     }
 
+    // Formulaire inscription
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const prenom = form.prenom.value.trim();
+      const email = form.email.value.trim();
+      const password = form.password.value;
+
+      try {
+        // Créer utilisateur Firebase
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+
+        // Stocker prénom dans Firestore sous document user.uid
+        await db.collection('users').doc(user.uid).set({ prenom: prenom });
+
+        // Afficher badge et masquer formulaire
+        showUserBadge(prenom, email);
+        form.style.display = 'none';
+        loginLink.style.display = 'none';
+      } catch (error) {
+        alert("Erreur inscription : " + error.message);
+      }
+    });
+
+    // Gestion déconnexion
+    logoutBtn.addEventListener('click', async () => {
+      await auth.signOut();
+      badge.style.display = 'none';
+      popup.style.display = 'none';
+      form.style.display = 'block';
+      loginLink.style.display = 'block';
+      form.reset();
+    });
+
+    // Afficher/masquer popup user au clic sur badge
     badge.addEventListener('click', () => {
       popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
     });
 
-    logoutBtn.addEventListener('click', () => {
-      localStorage.clear();
-      badge.style.display = 'none';
-      popup.style.display = 'none';
-      location.reload();
+    // Formulaire connexion (affiché en cliquant sur lien "Connectez-vous ici")
+    loginLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      if(form.style.display !== 'none') {
+        // Passer en mode connexion (changer formulaire)
+        form.innerHTML = `
+          <h2>Connexion</h2>
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
+          <label for="password">Mot de passe</label>
+          <input type="password" id="password" name="password" required />
+          <button type="submit">Se connecter</button>
+          <div class="login-link">
+            Pas encore de compte ? <a id="showSignup" href="#">Inscrivez-vous ici</a>
+          </div>
+        `;
+
+        // Lien pour revenir à inscription
+        document.getElementById('showSignup').addEventListener('click', e => {
+          e.preventDefault();
+          location.reload();
+        });
+
+        // Re-bind listener connexion
+        form.removeEventListener('submit', registerHandler);
+        form.addEventListener('submit', loginHandler);
+      }
     });
 
-    // Reconnexion auto si données présentes
-    const storedPrenom = localStorage.getItem('userPrenom');
-    const storedEmail = localStorage.getItem('userEmail');
-    if (storedPrenom && storedEmail) {
-      form.style.display = 'none';
-      showUserBadge(storedPrenom, storedEmail);
+    // Handler inscription (externe pour pouvoir enlever proprement)
+    async function registerHandler(e) {
+      e.preventDefault();
+      const prenom = form.prenom.value.trim();
+      const email = form.email.value.trim();
+      const password = form.password.value;
+      try {
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+        await db.collection('users').doc(user.uid).set({ prenom: prenom });
+        showUserBadge(prenom, email);
+        form.style.display = 'none';
+        loginLink.style.display = 'none';
+      } catch (error) {
+        alert("Erreur inscription : " + error.message);
+      }
     }
+
+    // Handler connexion
+    async function loginHandler(e) {
+      e.preventDefault();
+      const email = form.email.value.trim();
+      const password = form.password.value;
+      try {
+        const userCredential = await auth.signInWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+        // Récupérer prénom depuis Firestore
+        const doc = await db.collection('users').doc(user.uid).get();
+        const prenom = doc.exists ? doc.data().prenom : '';
+        showUserBadge(prenom, email);
+        form.style.display = 'none';
+        loginLink.style.display = 'none';
+      } catch (error) {
+        alert("Erreur connexion : " + error.message);
+      }
+    }
+
+    // Par défaut bind inscription
+    form.addEventListener('submit', registerHandler);
+
+    // On load, vérifier si utilisateur connecté
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        // User connecté : récupérer prénom
+        const doc = await db.collection('users').doc(user.uid).get();
+        const prenom = doc.exists ? doc.data().prenom : '';
+        showUserBadge(prenom, user.email);
+        form.style.display = 'none';
+        loginLink.style.display = 'none';
+      } else {
+        badge.style.display = 'none';
+        popup.style.display = 'none';
+        form.style.display = 'block';
+        loginLink.style.display = 'block';
+      }
+    });
+
   </script>
 </body>
 </html>
