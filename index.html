@@ -135,18 +135,21 @@
 </head>
 
 <body>
-  <nav>
-    <div class="logo">Soirée Parfaite</div>
-    <ul>
-      <li><a href="fonctionnement.html">Fonctionnement</a></li>
-      <li><a href="#cout">Combien ça coûte ?</a></li>
-      <li><a href="#infos">Infos pratiques</a></li>
-      <li><a href="generateur.html">Générer un menu</a></li>
-      <li><a href="#">Se connecter</a></li>
-      <li><a href="inscription.html" style="color: var(--accent); font-weight: bold;">Inscription gratuite</a></li>
-    </ul>
-  </nav>
+ <nav>
+  <div class="logo">Soirée Parfaite</div>
+  <ul>
+    <li><a href="fonctionnement.html">Fonctionnement</a></li>
+    <li><a href="#cout">Combien ça coûte ?</a></li>
+    <li><a href="#infos">Infos pratiques</a></li>
+    <li><a href="generateur.html">Générer un menu</a></li>
 
+    <!-- Lien de connexion / inscription (visible par défaut) -->
+    <li id="nav-auth"><a href="compte.html">Se connecter / Inscription</a></li>
+
+    <!-- Lien Mon compte (caché par défaut) -->
+    <li id="nav-user" class="hidden"><a href="compte.html" style="color: var(--accent); font-weight: bold;">👤 Mon compte</a></li>
+  </ul>
+</nav>
   <header>
     <h1>Organisez vos soirées sans stress</h1>
     <p>Des activités, des repas et des idées prêtes à l'emploi pour une soirée inoubliable entre amis ou en famille.</p>
