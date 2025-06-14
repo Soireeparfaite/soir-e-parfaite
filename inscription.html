@@ -78,12 +78,56 @@
       text-decoration: none;
       font-weight: bold;
     }
+
+    #userBadge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #fff;
+      color: #2c3e50;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #userPopup {
+      position: absolute;
+      top: 70px;
+      right: 20px;
+      background-color: #fff;
+      color: #2c3e50;
+      padding: 16px;
+      border-radius: 8px;
+      display: none;
+      width: 250px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    #userPopup p {
+      margin: 10px 0;
+    }
+
+    #logoutBtn {
+      margin-top: 12px;
+      background-color: #e63950;
+      color: white;
+      padding: 8px;
+      border: none;
+      border-radius: 6px;
+      width: 100%;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <div class="form-container">
     <h2>Créer un compte</h2>
-    <form action="/submit-inscription" method="POST">
+    <form id="signupForm">
       <label for="prenom">Prénom</label>
       <input type="text" id="prenom" name="prenom" required />
 
@@ -96,8 +140,70 @@
       <button type="submit">Inscription</button>
     </form>
     <div class="login-link">
-      Déjà un compte ? <a href="/connexion.html">Connectez-vous ici</a>
+      Déjà un compte ? <a href="#">Connectez-vous ici</a>
     </div>
   </div>
+
+  <div id="userBadge" style="display: none;"></div>
+  <div id="userPopup">
+    <p id="userEmail"></p>
+    <p>Notes données : ⭐⭐⭐⭐☆</p>
+    <p>Expériences vécues :
+      <ul>
+        <li>Soirée Chill</li>
+        <li>Escape Game</li>
+        <li>Dîner romantique</li>
+      </ul>
+    </p>
+    <button id="logoutBtn">Déconnexion</button>
+  </div>
+
+  <script>
+    const form = document.getElementById('signupForm');
+    const badge = document.getElementById('userBadge');
+    const popup = document.getElementById('userPopup');
+    const emailDisplay = document.getElementById('userEmail');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const prenom = form.prenom.value;
+      const email = form.email.value;
+      const password = form.password.value;
+
+      // Simuler une base de données avec localStorage (remplacer plus tard par Firebase ou API)
+      localStorage.setItem('userPrenom', prenom);
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('userPassword', password);
+
+      showUserBadge(prenom, email);
+      form.style.display = 'none';
+    });
+
+    function showUserBadge(prenom, email) {
+      badge.style.display = 'flex';
+      badge.textContent = prenom[0].toUpperCase();
+      emailDisplay.textContent = `Email : ${email}`;
+    }
+
+    badge.addEventListener('click', () => {
+      popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+    });
+
+    logoutBtn.addEventListener('click', () => {
+      localStorage.clear();
+      badge.style.display = 'none';
+      popup.style.display = 'none';
+      location.reload();
+    });
+
+    // Reconnexion auto si données présentes
+    const storedPrenom = localStorage.getItem('userPrenom');
+    const storedEmail = localStorage.getItem('userEmail');
+    if (storedPrenom && storedEmail) {
+      form.style.display = 'none';
+      showUserBadge(storedPrenom, storedEmail);
+    }
+  </script>
 </body>
 </html>
