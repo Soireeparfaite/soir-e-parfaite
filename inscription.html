@@ -135,31 +135,78 @@
     <button id="logoutBtn">Déconnexion</button>
   </div>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+ <!-- Firebase SDKs (modulaire) -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics.js"></script>
 
-  <script>
-    // Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyAPO0hI2RsAbZXSgw99shs8JO9_UbMbc5E",
-      authDomain: "soiree-parfaite.firebaseapp.com",
-      projectId: "soiree-parfaite",
-      storageBucket: "soiree-parfaite.appspot.com",
-      messagingSenderId: "420267229686",
-      appId: "1:420267229686:web:0395aa0dea26d5278e07d7",
-      measurementId: "G-KKF63BP0P1"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAPO0hI2RsAbZXSgw99shs8JO9_UbMbc5E",
+    authDomain: "soiree-parfaite.firebaseapp.com",
+    projectId: "soiree-parfaite",
+    storageBucket: "soiree-parfaite.appspot.com",
+    messagingSenderId: "420267229686",
+    appId: "1:420267229686:web:0395aa0dea26d5278e07d7",
+    measurementId: "G-KKF63BP0P1"
+  };
 
-    const formContainer = document.getElementById('formContainer');
-    const badge = document.getElementById('userBadge');
-    const popup = document.getElementById('userPopup');
-    const emailDisplay = document.getElementById('userEmail');
-    const logoutBtn = document.getElementById('logoutBtn');
+  // Initialise Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+  const analytics = firebase.analytics();
+
+  // Récupérer les éléments HTML
+  const formContainer = document.getElementById('formContainer');
+  const badge = document.getElementById('userBadge');
+  const popup = document.getElementById('userPopup');
+  const emailDisplay = document.getElementById('userEmail');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  // Fonction pour afficher badge
+  function showUserBadge(prenom, email) {
+    badge.style.display = 'block';
+    emailDisplay.textContent = email;
+    popup.textContent = prenom ? `Bienvenue ${prenom} !` : "Bienvenue !";
+  }
+
+  // Écouteur d'état d'auth
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      try {
+        const doc = await db.collection('users').doc(user.uid).get();
+        if (doc.exists) {
+          showUserBadge(doc.data().prenom, user.email);
+        } else {
+          showUserBadge('', user.email);
+        }
+        formContainer.style.display = 'none';
+      } catch (error) {
+        console.error("Erreur Firestore:", error);
+        alert("Erreur réseau ou Firestore.");
+        showUserBadge('', user.email);
+        formContainer.style.display = 'none';
+      }
+    } else {
+      badge.style.display = 'none';
+      formContainer.style.display = 'block';
+    }
+  });
+
+  // Logout
+  logoutBtn.addEventListener('click', () => {
+    auth.signOut()
+      .then(() => {
+        badge.style.display = 'none';
+        formContainer.style.display = 'block';
+      })
+      .catch((error) => {
+        console.error("Erreur logout:", error);
+      });
+  });
+</script>
 
     // Templates des formulaires (inscription / connexion)
     const signupFormHTML = `
