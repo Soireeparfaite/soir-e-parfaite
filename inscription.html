@@ -92,14 +92,16 @@
 
 <body>
   <nav>
-    <div class="logo">Soirée Parfaite</div>
-    <ul>
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="#">Fonctionnement</a></li>
-      <li><a href="#">Tarifs</a></li>
-      <li><a href="generateur.html">Générer un menu</a></li>
-    </ul>
-  </nav>
+  <div class="logo">Soirée Parfaite</div>
+  <ul>
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="#">Fonctionnement</a></li>
+    <li><a href="#">Tarifs</a></li>
+    <li><a href="generateur.html">Générer un menu</a></li>
+    <li id="nav-auth"><a href="compte.html">Connexion / Inscription</a></li>
+    <li id="nav-user" class="hidden"><a href="compte.html">👤 Mon compte</a></li>
+  </ul>
+</nav>
 
   <div class="card" id="login-section">
     <h2>Connexion</h2>
@@ -127,20 +129,78 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-    import {
-      getAuth,
-      onAuthStateChanged,
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-    import {
-      getFirestore,
-      doc,
-      setDoc,
-      getDoc
-    } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut
+} from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
+// === Initialisation Firebase ===
+const firebaseConfig = {
+  apiKey: "AIzaSyAPO0hI2RsAbZXSgw99shs8JO9_UbMbc5E",
+  authDomain: "soiree-parfaite.firebaseapp.com",
+  projectId: "soiree-parfaite",
+  storageBucket: "soiree-parfaite.appspot.com",
+  messagingSenderId: "420267229686",
+  appId: "1:420267229686:web:0395aa0dea26d5278e07d7",
+  measurementId: "G-KKF63BP0P1"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const db = getFirestore(app);
+
+// === Références DOM pour la navbar ===
+const navAuth = document.getElementById("nav-auth");
+const navUser = document.getElementById("nav-user");
+
+// === Observer état utilisateur ===
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    if (navAuth) navAuth.classList.add("hidden");
+    if (navUser) navUser.classList.remove("hidden");
+
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      const historiqueDiv = document.getElementById("historique");
+      if (historiqueDiv) {
+        historiqueDiv.innerHTML = "";
+        data.historique.forEach(item => {
+          const p = document.createElement("p");
+          p.textContent = "• " + item;
+          historiqueDiv.appendChild(p);
+        });
+      }
+    }
+
+    const loginSection = document.getElementById("login-section");
+    const userSection = document.getElementById("user-section");
+    const userEmailSpan = document.getElementById("user-email");
+    if (loginSection) loginSection.classList.add("hidden");
+    if (userSection) userSection.classList.remove("hidden");
+    if (userEmailSpan) userEmailSpan.textContent = user.email;
+
+  } else {
+    if (navAuth) navAuth.classList.remove("hidden");
+    if (navUser) navUser.classList.add("hidden");
+
+    const loginSection = document.getElementById("login-section");
+    const userSection = document.getElementById("user-section");
+    if (loginSection) loginSection.classList.remove("hidden");
+    if (userSection) userSection.classList.add("hidden");
+  }
+});
     const firebaseConfig = {
       apiKey: "AIzaSyAPO0hI2RsAbZXSgw99shs8JO9_UbMbc5E",
       authDomain: "soiree-parfaite.firebaseapp.com",
