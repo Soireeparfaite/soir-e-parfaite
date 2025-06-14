@@ -1,125 +1,145 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Soirée Parfaite - Connexion</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Soirée Parfaite - Connexion & Profil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --primary: #ff4a6e;
+      --accent: #f7d488;
+      --dark: #1a1a2e;
+      --light: #f9f9f9;
+      --text-dark: #2c3e50;
+      --radius: 12px;
+    }
+
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to right, #2c3e50, #4ca1af);
-      color: #fff;
+      background: #f4f4f4;
+      margin: 0;
+    }
+
+    nav {
+      background: var(--dark);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 30px;
+    }
+
+    nav .logo {
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: var(--accent);
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 24px;
       margin: 0;
       padding: 0;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
-    .form-container {
-      background-color: rgba(255, 255, 255, 0.1);
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .card {
+      background: white;
+      padding: 2em;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       max-width: 400px;
-      width: 100%;
+      margin: 3em auto;
     }
-    h2 {
-      margin-bottom: 24px;
-      font-weight: 600;
+
+    h2,
+    h3 {
       text-align: center;
     }
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 300;
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 20px;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-    }
+
+    input,
     button {
       width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      background-color: #ff4a6e;
-      color: #fff;
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s;
+      padding: 0.8em;
+      margin-top: 1em;
+      border-radius: 5px;
+      border: 1px solid #ccc;
     }
-    button:hover {
-      background-color: #e63950;
-    }
-    .login-link {
-      margin-top: 16px;
-      text-align: center;
-      font-size: 0.9rem;
-    }
-    .login-link a {
-      color: #f7d488;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    #userBadge {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: #fff;
-      color: #2c3e50;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    #userPopup {
+
+    .hidden {
       display: none;
-      position: absolute;
-      top: 70px;
-      right: 20px;
-      background: #fff;
-      color: #2c3e50;
-      padding: 16px;
-      border-radius: 8px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      width: 250px;
     }
-    #userPopup ul {
-      padding-left: 20px;
+
+    #toggle-form {
+      text-align: center;
+      margin-top: 1em;
+      cursor: pointer;
+      color: blue;
+    }
+
+    #historique p {
+      margin-left: 1em;
     }
   </style>
 </head>
+
 <body>
-  <div class="form-container" id="formContainer"></div>
-  <div id="userBadge" style="display:none;"></div>
-  <div id="userPopup">
-    <p id="userEmail"></p>
-    <p>Notes données : ⭐⭐⭐⭐☆</p>
-    <p>Expériences :
-      <ul>
-        <li>Soirée Chill</li>
-        <li>Escape Game</li>
-        <li>Dîner Romantique</li>
-      </ul>
-    </p>
-    <button id="logoutBtn">Déconnexion</button>
+  <nav>
+    <div class="logo">Soirée Parfaite</div>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="#">Fonctionnement</a></li>
+      <li><a href="#">Tarifs</a></li>
+      <li><a href="generateur.html">Générer un menu</a></li>
+    </ul>
+  </nav>
+
+  <div class="card" id="login-section">
+    <h2>Connexion</h2>
+    <form id="connexion-form">
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="password" name="password" placeholder="Mot de passe" required />
+      <button type="submit">Se connecter</button>
+    </form>
+
+    <form id="inscription-form" class="hidden">
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="password" name="password" placeholder="Mot de passe" required />
+      <button type="submit">S'inscrire</button>
+    </form>
+
+    <div id="toggle-form">Pas encore de compte ? Cliquez ici !</div>
+  </div>
+
+  <div class="card hidden" id="user-section">
+    <h2>Bienvenue <span id="user-email"></span></h2>
+    <button id="logout-btn">Se déconnecter</button>
+    <h3>Vos expériences passées :</h3>
+    <div id="historique"></div>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAPO0hI2RsAbZXSgw99shs8JO9_UbMbc5E",
@@ -132,94 +152,78 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+    const auth = getAuth();
     const db = getFirestore(app);
 
-    const formContainer = document.getElementById('formContainer');
-    const badge = document.getElementById('userBadge');
-    const popup = document.getElementById('userPopup');
-    const emailDisplay = document.getElementById('userEmail');
-    const logoutBtn = document.getElementById('logoutBtn');
+    const inscriptionForm = document.getElementById("inscription-form");
+    const connexionForm = document.getElementById("connexion-form");
+    const toggleLink = document.getElementById("toggle-form");
+    const userSection = document.getElementById("user-section");
+    const loginSection = document.getElementById("login-section");
+    const userEmailSpan = document.getElementById("user-email");
+    const logoutBtn = document.getElementById("logout-btn");
+    const historiqueDiv = document.getElementById("historique");
 
-    let isLoginMode = false;
+    toggleLink.addEventListener("click", () => {
+      inscriptionForm.classList.toggle("hidden");
+      connexionForm.classList.toggle("hidden");
+    });
 
-    const signupHTML = `
-      <h2>Inscription</h2>
-      <form id="authForm">
-        <label for="prenom">Prénom</label>
-        <input type="text" id="prenom" name="prenom" required>
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
-        <label for="password">Mot de passe</label>
-        <input type="password" id="password" name="password" required>
-        <button type="submit">S'inscrire</button>
-      </form>
-      <div class="login-link">Déjà inscrit ? <a href="#" id="toggleForm">Connexion</a></div>
-    `;
-
-    const loginHTML = `
-      <h2>Connexion</h2>
-      <form id="authForm">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
-        <label for="password">Mot de passe</label>
-        <input type="password" id="password" name="password" required>
-        <button type="submit">Connexion</button>
-      </form>
-      <div class="login-link">Pas encore inscrit ? <a href="#" id="toggleForm">Inscription</a></div>
-    `;
-
-    function renderForm() {
-      formContainer.innerHTML = isLoginMode ? loginHTML : signupHTML;
-      document.getElementById('toggleForm').onclick = e => {
-        e.preventDefault();
-        isLoginMode = !isLoginMode;
-        renderForm();
-      };
-      document.getElementById('authForm').onsubmit = handleAuth;
-    }
-
-    async function handleAuth(e) {
+    inscriptionForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const data = new FormData(e.target);
-      const email = data.get('email');
-      const password = data.get('password');
-      const prenom = data.get('prenom') || '';
+      const email = inscriptionForm["email"].value;
+      const password = inscriptionForm["password"].value;
+
       try {
-        let userCred;
-        if (isLoginMode) {
-          userCred = await signInWithEmailAndPassword(auth, email, password);
-        } else {
-          userCred = await createUserWithEmailAndPassword(auth, email, password);
-          await setDoc(doc(db, 'users', userCred.user.uid), { prenom });
-        }
-        displayUser(userCred.user);
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        await setDoc(doc(db, "users", cred.user.uid), {
+          email,
+          historique: ["Expérience test #1", "Sortie organisée à Nice"]
+        });
       } catch (err) {
         alert(err.message);
       }
-    }
+    });
 
-    async function displayUser(user) {
-      const snap = await getDoc(doc(db, 'users', user.uid));
-      const prenom = snap.exists() ? snap.data().prenom : '?';
-      badge.textContent = prenom[0].toUpperCase();
-      emailDisplay.textContent = `Email : ${user.email}`;
-      badge.style.display = 'flex';
-      formContainer.style.display = 'none';
-    }
+    connexionForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = connexionForm["email"].value;
+      const password = connexionForm["password"].value;
 
-    onAuthStateChanged(auth, user => {
-      if (user) displayUser(user);
-      else {
-        badge.style.display = 'none';
-        popup.style.display = 'none';
-        formContainer.style.display = 'block';
-        renderForm();
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+      } catch (err) {
+        alert("Erreur : " + err.message);
       }
     });
 
-    logoutBtn.onclick = () => signOut(auth);
-    badge.onclick = () => popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+    logoutBtn.addEventListener("click", () => {
+      signOut(auth);
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        loginSection.classList.add("hidden");
+        userSection.classList.remove("hidden");
+        userEmailSpan.textContent = user.email;
+
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          historiqueDiv.innerHTML = "";
+          data.historique.forEach(item => {
+            const p = document.createElement("p");
+            p.textContent = "• " + item;
+            historiqueDiv.appendChild(p);
+          });
+        }
+      } else {
+        loginSection.classList.remove("hidden");
+        userSection.classList.add("hidden");
+      }
+    });
   </script>
 </body>
 </html>
