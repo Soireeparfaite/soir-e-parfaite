@@ -204,6 +204,39 @@
   <footer>
     &copy; 2025 Soirée Parfaite. Tous droits réservés.
   </footer>
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+  import {
+    getAuth,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAPO0hI2RsAbZXSgw99shs8JO9_UbMbc5E",
+    authDomain: "soiree-parfaite.firebaseapp.com",
+    projectId: "soiree-parfaite",
+    storageBucket: "soiree-parfaite.firebasestorage.app",
+    messagingSenderId: "420267229686",
+    appId: "1:420267229686:web:0395aa0dea26d5278e07d7",
+    measurementId: "G-KKF63BP0P1"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const navAuth = document.getElementById("nav-auth");
+  const navUser = document.getElementById("nav-user");
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      navAuth.classList.add("hidden");
+      navUser.classList.remove("hidden");
+    } else {
+      navAuth.classList.remove("hidden");
+      navUser.classList.add("hidden");
+    }
+  });
+</script>
 </body>
 
 </html>
