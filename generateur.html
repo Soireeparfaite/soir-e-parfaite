@@ -23,6 +23,31 @@
       padding: 20px;
       transition: background 0.6s ease-in-out;
     }
+        nav {
+      background: var(--dark);
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 30px;
+    }
+
+    nav .logo {
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: var(--accent);
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 24px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      color: var(--accent);
+      font-weight: bold;
+      font-weight: 1rem;
      h1, h2, h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; text-align: center; }
     @keyframes gradient {
       0% { background-position: 0% 50%; }
@@ -153,6 +178,17 @@
   </style>
 </head>
 <body>
+  <nav>
+    <div class="logo">OSMOZ</div>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="fonctionnement.html">Fonctionnement</a></li>
+      <li><a href="#">Tarifs</a></li>
+      <li><a href="generateur.html">Générer un menu</a></li>
+      <li id="nav-auth"><a href="inscription.html">Connexion / Inscription</a></li>
+      <li id="nav-user" class="hidden"><a href="compte.html">👤 Mon compte</a></li>
+    </ul>
+  </nav>
   <header>OSMOZ ✨<br><small>Crée ton programme de rêve</small></header>
   <main>
     <label for="theme">Choisis ton ambiance :</label>
