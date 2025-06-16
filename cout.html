@@ -2,136 +2,184 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Combien ça coûte ? | OSMOZ</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --osmoz-blue: #0033a0;
-      --osmoz-bg: #f4ede4;
-      --radius: 24px;
+      --primary: #ff4a6e;
+      --accent: #f7d488;
+      --dark: #1a1a2e;
+      --light: #f9f9f9;
+      --text-dark: #2c3e50;
+      --radius: 16px;
     }
 
     * {
       box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #fffaf0 0%, #f2f2f2 100%);
+      color: var(--text-dark);
+    }
+
+    nav {
+      background: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 30px;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #0033a0;
+    }
+
+    nav .logo img {
+      height: 40px;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 24px;
       margin: 0;
       padding: 0;
     }
 
-    body {
-      font-family: 'Fredoka', sans-serif;
-      background: var(--osmoz-bg);
-      color: var(--osmoz-blue);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      padding: 2em;
+    nav ul li a {
+      color: #0033a0;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
     }
 
-    .card {
-      background: #fff;
-      padding: 3em 2em;
-      max-width: 700px;
-      border-radius: var(--radius);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    nav ul li a:hover {
+      color: var(--primary);
+    }
+
+    header {
       text-align: center;
+      padding: 100px 20px 60px;
+      background: linear-gradient(120deg, #0033a0, #001b66);
+      color: white;
       position: relative;
-      overflow: hidden;
     }
 
-    .card::before {
-      content: '';
-      position: absolute;
-      width: 150%;
-      height: 150%;
-      background: radial-gradient(circle, #0033a00c 0%, transparent 70%);
-      top: -20%;
-      left: -20%;
-      z-index: 0;
+    header h1 {
+      font-size: 3.2rem;
+      margin: 0 0 20px;
     }
 
-    .logo {
-      max-width: 140px;
-      margin: 0 auto 1.5em;
+    header p {
+      font-size: 1.4rem;
+      max-width: 700px;
+      margin: auto;
+      opacity: 0.9;
     }
 
-    h1 {
-      font-size: 2.8rem;
-      margin-bottom: 0.5em;
-      font-weight: 600;
-      position: relative;
-      z-index: 1;
+    .highlight {
+      background: white;
+      margin: -60px auto 60px;
+      padding: 60px 30px;
+      max-width: 800px;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      text-align: center;
     }
 
-    .big-text {
-      font-size: 2rem;
-      font-weight: 600;
-      color: var(--osmoz-blue);
-      margin: 1em 0;
-      position: relative;
-      z-index: 1;
+    .highlight h2 {
+      font-size: 2.6rem;
+      margin-bottom: 20px;
+      color: #0033a0;
     }
 
-    p {
+    .highlight .big-text {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .highlight p {
       font-size: 1.2rem;
-      color: #333;
-      margin-bottom: 2em;
-      position: relative;
-      z-index: 1;
+      color: var(--text-dark);
+      margin-top: 20px;
     }
 
     .cta {
-      background: var(--osmoz-blue);
-      color: #fff;
-      padding: 1em 2em;
-      font-size: 1.1rem;
-      font-weight: 600;
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .cta a {
+      background: var(--primary);
+      color: white;
+      padding: 14px 30px;
+      font-size: 1rem;
+      font-weight: bold;
       border-radius: var(--radius);
       text-decoration: none;
-      display: inline-block;
-      transition: transform 0.2s ease, box-shadow 0.3s ease;
-      position: relative;
-      z-index: 1;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+      transition: background 0.3s ease;
     }
 
-    .cta:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 20px rgba(0, 51, 160, 0.2);
+    .cta a:hover {
+      background: #e03e60;
     }
 
-    .emoji {
-      font-size: 2rem;
-      margin-top: 1.2em;
-      position: relative;
-      z-index: 1;
-    }
-
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2rem;
-      }
-
-      .big-text {
-        font-size: 1.5rem;
-      }
-
-      .cta {
-        font-size: 1rem;
-        padding: 0.8em 1.5em;
-      }
+    footer {
+      background: var(--dark);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      margin-top: 60px;
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <img src="unnamed.jpg" alt="Logo Osmoz" class="logo">
+
+  <nav>
+    <div class="logo">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABFklEQVRoQ+2ZwQ3DIAhEzZAf2IXfgyVoPUyrdQoPEtsyeYCvZfD9jcXm8ZgzRwhRQIFChQoUKFCjQo0X/AD7MAQDNKqLwZJTxPEPKKUqCA8y1g+XYKwROCrRb3ZQQs7UNRlHTDASV4nYBhLKiYyuhAxLyjBL6KCAICcnHEMW4RgTDARxncmzwhFlXHzVGG3w0U3DkQuAcVME3VrFoAnmqPZWYoy/4RIVgBA3V8DWcdGGjqHTq8MOGgSxsbAj3MxI5IqHQUKvQ93vIAFBTz0MOdjscfBNB9W7jxQoUKFCjQoEID/CksvRZf0z3iwAAAABJRU5ErkJggg==" alt="Logo Osmoz">
+      OSMOZ
+    </div>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="fonctionnement.html">Fonctionnement</a></li>
+      <li><a href="generateur.html">Générateur</a></li>
+      <li><a href="inscription.html">Mon compte</a></li>
+    </ul>
+  </nav>
+
+  <header>
     <h1>Combien ça coûte ?</h1>
-    <p>Pas un centime. OSMOZ, c’est du partage, pas un business plan.</p>
-    <div class="big-text">Ça coûte… <strong>3 clics.</strong></div>
-    <p>Un pour générer. Un pour réserver. Un pour valider.<br>Et toi, t’as plus qu’à kiffer.</p>
-    <a href="generateur.html" class="cta">Je veux ma soirée !</a>
-    <div class="emoji">🍷🤝✨</div>
-  </div>
+    <p>On pourrait vous parler d'abonnement, de tarifs... mais on préfère la vérité.</p>
+  </header>
+
+  <section class="highlight">
+    <div class="big-text">Trois clics.</div>
+    <p>Génère, réserve et valide ta soirée parfaite avec OSMOZ. Aucun frais, aucun piège.<br>Juste de la magie en 3 étapes.</p>
+    <div class="cta">
+      <a href="generateur.html">Goûter à l'expérience OSMOZ</a>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 OSMOZ — L’expérience sans compromis. Gratuit. Classe. Inoubliable.
+  </footer>
+
 </body>
 </html>
