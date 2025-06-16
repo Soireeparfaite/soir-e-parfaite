@@ -103,6 +103,9 @@
         loginSection.classList.remove("hidden");
         userSection.classList.add("hidden");
       }
+       document.getElementById('back-home-btn').addEventListener('click', function() {
+    document.getElementById('user-section').classList.add('hidden');
+    document.getElementById('login-section').classList.remove('hidden');
     });
   </script>
   <style>
@@ -188,6 +191,7 @@
       <input type="email" name="email" placeholder="Email" required>
       <input type="password" name="password" placeholder="Mot de passe" required>
       <button type="submit">Se connecter</button>
+      <button id="back-home-btn" style="margin-top: 1em; background-color: #ccc; color: #000;">Retour à l'accueil</button>
     </form>
 
     <form id="inscription-form" class="hidden">
