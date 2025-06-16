@@ -6,180 +6,103 @@
   <title>Combien ça coûte ? | OSMOZ</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --primary: #ff4a6e;
-      --accent: #f7d488;
-      --dark: #1a1a2e;
-      --light: #f9f9f9;
-      --text-dark: #2c3e50;
-      --radius: 16px;
-    }
-
     * {
       box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #fffaf0 0%, #f2f2f2 100%);
-      color: var(--text-dark);
-    }
-
-    nav {
-      background: white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      padding: 16px 30px;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    nav .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #0033a0;
-    }
-
-    nav .logo img {
-      height: 40px;
-    }
-
-    nav ul {
-      display: flex;
-      list-style: none;
-      gap: 24px;
       margin: 0;
       padding: 0;
     }
 
-    nav ul li a {
-      color: #0033a0;
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.3s ease;
-    }
-
-    nav ul li a:hover {
-      color: var(--primary);
-    }
-
-    header {
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(145deg, #fefefe, #f3f5f9);
+      color: #1a1a1a;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      justify-content: center;
+      align-items: center;
       text-align: center;
-      padding: 100px 20px 60px;
-      background: linear-gradient(120deg, #0033a0, #001b66);
-      color: white;
-      position: relative;
+      padding: 60px 20px;
     }
 
-    header h1 {
-      font-size: 3.2rem;
-      margin: 0 0 20px;
-    }
-
-    header p {
-      font-size: 1.4rem;
-      max-width: 700px;
-      margin: auto;
-      opacity: 0.9;
-    }
-
-    .highlight {
+    .container {
       background: white;
-      margin: -60px auto 60px;
-      padding: 60px 30px;
-      max-width: 800px;
-      border-radius: var(--radius);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      text-align: center;
+      padding: 60px 40px;
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+      max-width: 700px;
+      width: 100%;
     }
 
-    .highlight h2 {
-      font-size: 2.6rem;
-      margin-bottom: 20px;
+    h1 {
+      font-size: 3.2rem;
       color: #0033a0;
+      margin-bottom: 20px;
     }
 
-    .highlight .big-text {
-      font-size: 3.5rem;
-      font-weight: 700;
-      color: var(--primary);
+    h2 {
+      font-size: 4rem;
+      color: #ff4a6e;
+      margin-bottom: 10px;
     }
 
-    .highlight p {
+    p {
       font-size: 1.2rem;
-      color: var(--text-dark);
-      margin-top: 20px;
+      color: #333;
+      margin-top: 10px;
+      line-height: 1.6;
     }
 
-    .cta {
-      text-align: center;
+    .cta-btn {
+      display: inline-block;
       margin-top: 40px;
-    }
-
-    .cta a {
-      background: var(--primary);
-      color: white;
-      padding: 14px 30px;
+      padding: 16px 32px;
       font-size: 1rem;
-      font-weight: bold;
-      border-radius: var(--radius);
+      font-weight: 600;
+      background-color: #0033a0;
+      color: white;
+      border: none;
+      border-radius: 12px;
       text-decoration: none;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
       transition: background 0.3s ease;
+      box-shadow: 0 10px 25px rgba(0, 51, 160, 0.2);
     }
 
-    .cta a:hover {
-      background: #e03e60;
+    .cta-btn:hover {
+      background-color: #001f6b;
     }
 
     footer {
-      background: var(--dark);
-      color: white;
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9rem;
       margin-top: 60px;
+      font-size: 0.9rem;
+      color: #888;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2.4rem;
+      }
+
+      h2 {
+        font-size: 3rem;
+      }
+
+      .container {
+        padding: 40px 20px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <nav>
-    <div class="logo">
-      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABFklEQVRoQ+2ZwQ3DIAhEzZAf2IXfgyVoPUyrdQoPEtsyeYCvZfD9jcXm8ZgzRwhRQIFChQoUKFCjQo0X/AD7MAQDNKqLwZJTxPEPKKUqCA8y1g+XYKwROCrRb3ZQQs7UNRlHTDASV4nYBhLKiYyuhAxLyjBL6KCAICcnHEMW4RgTDARxncmzwhFlXHzVGG3w0U3DkQuAcVME3VrFoAnmqPZWYoy/4RIVgBA3V8DWcdGGjqHTq8MOGgSxsbAj3MxI5IqHQUKvQ93vIAFBTz0MOdjscfBNB9W7jxQoUKFCjQoEID/CksvRZf0z3iwAAAABJRU5ErkJggg==" alt="Logo Osmoz">
-      OSMOZ
-    </div>
-    <ul>
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="fonctionnement.html">Fonctionnement</a></li>
-      <li><a href="generateur.html">Générateur</a></li>
-      <li><a href="inscription.html">Mon compte</a></li>
-    </ul>
-  </nav>
-
-  <header>
+  <div class="container">
     <h1>Combien ça coûte ?</h1>
-    <p>On pourrait vous parler d'abonnement, de tarifs... mais on préfère la vérité.</p>
-  </header>
+    <h2>Trois clics.</h2>
+    <p>Génère, réserve et valide ta soirée parfaite avec <strong>OSMOZ</strong>.<br />Aucun frais, aucun piège.<br />Juste de la magie en 3 étapes.</p>
+    <a class="cta-btn" href="generateur.html">Goûter à l'expérience</a>
+  </div>
 
-  <section class="highlight">
-    <div class="big-text">Trois clics.</div>
-    <p>Génère, réserve et valide ta soirée parfaite avec OSMOZ. Aucun frais, aucun piège.<br>Juste de la magie en 3 étapes.</p>
-    <div class="cta">
-      <a href="generateur.html">Goûter à l'expérience OSMOZ</a>
-    </div>
-  </section>
-
-  <footer>
-    &copy; 2025 OSMOZ — L’expérience sans compromis. Gratuit. Classe. Inoubliable.
-  </footer>
+  <footer>&copy; 2025 OSMOZ — Gratuit, fluide, inoubliable.</footer>
 
 </body>
 </html>
