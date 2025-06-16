@@ -106,42 +106,79 @@
     });
   </script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 2em;
-      background: #f4f4f4;
-    }
-    .card {
-      background: white;
-      padding: 2em;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      max-width: 400px;
-      margin: auto;
-    }
-    h2 {
-      text-align: center;
-    }
-    input, button {
-      width: 100%;
-      padding: 0.8em;
-      margin-top: 1em;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    .hidden {
-      display: none;
-    }
-    #toggle-form {
-      text-align: center;
-      margin-top: 1em;
-      cursor: pointer;
-      color: blue;
-    }
-    #historique p {
-      margin-left: 1em;
-    }
-  </style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background-color: #f5f0e8; /* beige très clair */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .card {
+    background: #ffffff;
+    padding: 2.5em;
+    border-radius: 1.5em;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+  }
+
+  h2, h3 {
+    color: #0033a0; /* bleu profond */
+    margin-bottom: 1em;
+  }
+
+  input, button {
+    width: 100%;
+    padding: 1em;
+    margin-top: 1em;
+    border: none;
+    border-radius: 0.8em;
+    font-size: 1em;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+
+  input {
+    background-color: #f2f2f2;
+  }
+
+  button {
+    background-color: #0033a0;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #002277;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  #toggle-form {
+    text-align: center;
+    margin-top: 1em;
+    cursor: pointer;
+    color: #0033a0;
+    font-weight: bold;
+  }
+
+  #toggle-form:hover {
+    text-decoration: underline;
+  }
+
+  #historique p {
+    margin-left: 1em;
+    color: #333;
+    text-align: left;
+  }
+</style>
 </head>
 
 <body>
