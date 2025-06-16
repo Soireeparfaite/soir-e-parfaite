@@ -2,115 +2,138 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Combien ça coûte ? | Osmoz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Combien ça coûte ? | OSMOZ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet" />
   <style>
-    body {
+    :root {
+      --primary: #ff4a6e;
+      --accent: #f7d488;
+      --dark: #1a1a2e;
+      --light: #f9f9f9;
+      --gradient: linear-gradient(135deg, #ff4a6e, #ffb347);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f5f0e8;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #fdfcfb;
+      color: #1a1a2e;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      padding: 40px 20px;
+      background-image: radial-gradient(circle at top left, #ffe5ec 0%, #ffffff 100%);
       overflow: hidden;
     }
 
-    .card {
-      background: white;
-      border-radius: 2em;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-      padding: 3em;
-      max-width: 600px;
-      width: 90%;
+    .container {
+      max-width: 900px;
       text-align: center;
-      animation: pop 0.6s ease forwards;
+      padding: 60px 40px;
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+      position: relative;
+      animation: fadeIn 1.2s ease-out;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: inherit;
+      background: var(--gradient);
+      z-index: -1;
+      filter: blur(20px);
+      opacity: 0.2;
     }
 
     h1 {
-      font-size: 2.2em;
-      color: #0033a0;
-      margin-bottom: 0.5em;
+      font-size: 3.2rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 800;
+      margin-bottom: 20px;
     }
 
-    h2 {
-  font-size: 3.2em;
-  margin: 0.2em 0;
-  color: #0033a0; /* fallback standard */
-  background: linear-gradient(90deg, #0033a0, #0099ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: bold;
-  animation: pulse 2s infinite;
-}
-
     p {
-      font-size: 1.1em;
-      color: #444;
-      margin-top: 1.5em;
+      font-size: 1.25rem;
+      line-height: 1.7;
+      margin-bottom: 40px;
+      color: #333;
+    }
+
+    .big-text {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 20px;
     }
 
     .button {
-      margin-top: 2em;
-      padding: 1em 2em;
-      font-size: 1.1em;
-      background-color: #0033a0;
+      padding: 16px 32px;
+      background: var(--primary);
       color: white;
+      font-weight: 600;
       border: none;
-      border-radius: 1em;
+      border-radius: var(--radius);
+      font-size: 1.1rem;
       cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(255, 74, 110, 0.3);
+      text-decoration: none;
+      display: inline-block;
     }
 
     .button:hover {
-      background-color: #002277;
-      transform: scale(1.05);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(255, 74, 110, 0.4);
     }
 
-    .footer {
-      margin-top: 2.5em;
-      color: #888;
-      font-size: 0.9em;
+    .emoji {
+      font-size: 2rem;
+      margin-top: 20px;
     }
 
-    @keyframes pop {
-      from {
-        transform: scale(0.9);
+    @keyframes fadeIn {
+      0% {
         opacity: 0;
+        transform: translateY(30px);
       }
-      to {
-        transform: scale(1);
+      100% {
         opacity: 1;
+        transform: translateY(0);
       }
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.7; transform: scale(1.05); }
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      .big-text {
+        font-size: 1.8rem;
+      }
     }
   </style>
 </head>
-
 <body>
-  <div class="card">
+  <div class="container">
     <h1>Combien ça coûte ?</h1>
-    <h2>Rien. Nada. Zéro. 😎</h2>
-    <p>
-      Chez <strong>Osmoz</strong>, on ne te vend pas du rêve…<br />
-      On te le **file gratuit**.<br />
-      Il te faut juste <strong>3 clics</strong> :
-    </p>
-    <p style="margin-top: 1em;">
-      🎯 Générer ta soirée<br />
-      📅 Réserver<br />
-      ✅ Valider
-    </p>
-    <button class="button" onclick="location.href='generateur.html'">Essayer maintenant</button>
-    <div class="footer">
-      Pas besoin de carte bancaire. Juste l'envie de kiffer.
-    </div>
+    <p>Chez <strong>OSMOZ</strong>, on aime la simplicité. Pas d’abonnement, pas de carte bleue, pas de piège.</p>
+    <div class="big-text">💸 Ça coûte… rien du tout !</div>
+    <p>Juste <strong>3 clics</strong> pour <em>générer</em>, <em>réserver</em> et <em>valider</em> ta soirée.</p>
+    <a href="generateur.html" class="button">Goûter à l'expérience OSMOZ</a>
+    <div class="emoji">🎉🍷✨</div>
   </div>
 </body>
 </html>
