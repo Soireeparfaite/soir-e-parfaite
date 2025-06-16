@@ -2,13 +2,25 @@
 <html lang="fr">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Connexion & Profil</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connexion & Inscription | OSMOZ</title>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+
+    import {
+      getFirestore,
+      doc,
+      setDoc
+    } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAPO0hI2RsAbZXSgw99shs8JO9_UbMbc5E",
@@ -18,7 +30,6 @@
       messagingSenderId: "420267229686",
       appId: "1:420267229686:web:0395aa0dea26d5278e07d7",
       measurementId: "G-KKF63BP0P1"
-      
     };
 
     const app = initializeApp(firebaseConfig);
@@ -28,11 +39,8 @@
     const inscriptionForm = document.getElementById("inscription-form");
     const connexionForm = document.getElementById("connexion-form");
     const toggleLink = document.getElementById("toggle-form");
-    const userSection = document.getElementById("user-section");
+    const welcomeSection = document.getElementById("welcome-section");
     const loginSection = document.getElementById("login-section");
-    const userEmailSpan = document.getElementById("user-email");
-    const logoutBtn = document.getElementById("logout-btn");
-    const historiqueDiv = document.getElementById("historique");
 
     toggleLink.addEventListener("click", () => {
       inscriptionForm.classList.toggle("hidden");
@@ -46,16 +54,18 @@
       e.preventDefault();
       const email = inscriptionForm["email"].value;
       const password = inscriptionForm["password"].value;
+      const prenom = inscriptionForm["prenom"].value;
+      const nom = inscriptionForm["nom"].value;
 
       try {
         const cred = await createUserWithEmailAndPassword(auth, email, password);
         await setDoc(doc(db, "users", cred.user.uid), {
           email,
-          historique: ["Expérience test #1", "Sortie organisée à Nice"]
+          prenom,
+          nom
         });
-        console.log("Utilisateur inscrit et ajouté à Firestore");
       } catch (err) {
-        alert(err.message);
+        alert("Erreur : " + err.message);
       }
     });
 
@@ -71,143 +81,131 @@
       }
     });
 
-    logoutBtn.addEventListener("click", () => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loginSection.classList.add("hidden");
+        welcomeSection.classList.remove("hidden");
+      } else {
+        loginSection.classList.remove("hidden");
+        welcomeSection.classList.add("hidden");
+      }
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
       signOut(auth);
     });
 
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        loginSection.classList.add("hidden");
-        userSection.classList.remove("hidden");
-        userEmailSpan.textContent = user.email;
+    document.getElementById('back-home-btn').addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
 
-        const docRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          historiqueDiv.innerHTML = "";
-          if (data.historique && Array.isArray(data.historique)) {
-            data.historique.forEach(item => {
-              const p = document.createElement("p");
-              p.textContent = "• " + item;
-              historiqueDiv.appendChild(p);
-            });
-          } else {
-            historiqueDiv.innerHTML = "<p>Aucun historique trouvé.</p>";
-          }
-        } else {
-          historiqueDiv.innerHTML = "<p>Profil non trouvé dans la base de données.</p>";
-        }
-      } else {
-        loginSection.classList.remove("hidden");
-        userSection.classList.add("hidden");
-      }
-       document.getElementById('back-home-btn').addEventListener('click', function() {
-    document.getElementById('user-section').classList.add('hidden');
-    document.getElementById('login-section').classList.remove('hidden');
+    document.getElementById('go-osmoz-btn').addEventListener('click', () => {
+      window.location.href = 'generateur.html';
     });
   </script>
+
   <style>
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    margin: 0;
-    background-color: #f5f0e8; /* beige très clair */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-  }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: #f5f0e8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
 
-  .card {
-    background: #ffffff;
-    padding: 2.5em;
-    border-radius: 1.5em;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-    max-width: 400px;
-    width: 100%;
-    text-align: center;
-  }
+    .card {
+      background: #fff;
+      padding: 2.5em;
+      border-radius: 1.5em;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
 
-  h2, h3 {
-    color: #0033a0; /* bleu profond */
-    margin-bottom: 1em;
-  }
+    h2 {
+      color: #0033a0;
+      margin-bottom: 1em;
+    }
 
-  input, button {
-    width: 100%;
-    padding: 1em;
-    margin-top: 1em;
-    border: none;
-    border-radius: 0.8em;
-    font-size: 1em;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-  }
+    input, button {
+      width: 100%;
+      padding: 1em;
+      margin-top: 1em;
+      border: none;
+      border-radius: 0.8em;
+      font-size: 1em;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
 
-  input {
-    background-color: #f2f2f2;
-  }
+    input {
+      background-color: #f2f2f2;
+    }
 
-  button {
-    background-color: #0033a0;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
+    button {
+      background-color: #0033a0;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
 
-  button:hover {
-    background-color: #002277;
-  }
+    button:hover {
+      background-color: #002277;
+    }
 
-  .hidden {
-    display: none;
-  }
+    .hidden {
+      display: none;
+    }
 
-  #toggle-form {
-    text-align: center;
-    margin-top: 1em;
-    cursor: pointer;
-    color: #0033a0;
-    font-weight: bold;
-  }
+    #toggle-form {
+      text-align: center;
+      margin-top: 1em;
+      cursor: pointer;
+      color: #0033a0;
+      font-weight: bold;
+    }
 
-  #toggle-form:hover {
-    text-decoration: underline;
-  }
+    #toggle-form:hover {
+      text-decoration: underline;
+    }
 
-  #historique p {
-    margin-left: 1em;
-    color: #333;
-    text-align: left;
-  }
-</style>
+    .secondary-btn {
+      background-color: #ccc;
+      color: #000;
+    }
+  </style>
 </head>
 
 <body>
+  <!-- Formulaire de Connexion / Inscription -->
   <div class="card" id="login-section">
     <h2>Connexion</h2>
     <form id="connexion-form">
-      <input type="email" name="email" placeholder="Email" required>
+      <input type="email" name="email" placeholder="Adresse e-mail" required>
       <input type="password" name="password" placeholder="Mot de passe" required>
       <button type="submit">Se connecter</button>
-      <button id="back-home-btn" style="margin-top: 1em; background-color: #ccc; color: #000;">Retour à l'accueil</button>
     </form>
 
     <form id="inscription-form" class="hidden">
-      <input type="email" name="email" placeholder="Email" required>
+      <input type="text" name="prenom" placeholder="Prénom" required>
+      <input type="text" name="nom" placeholder="Nom" required>
+      <input type="email" name="email" placeholder="Adresse e-mail" required>
       <input type="password" name="password" placeholder="Mot de passe" required>
-      <button type="submit">S'inscrire</button>
+      <button type="submit">Créer un compte</button>
     </form>
 
     <div id="toggle-form">Pas encore de compte ? Cliquez ici !</div>
+    <button id="back-home-btn" class="secondary-btn" style="margin-top: 1em;">Retour à l'accueil</button>
   </div>
 
-  <div class="card hidden" id="user-section">
-    <h2>Bienvenue <span id="user-email"></span></h2>
-    <button id="logout-btn">Se déconnecter</button>
-    <h3>Vos expériences passées :</h3>
-    <div id="historique"></div>
+  <!-- Section de Bienvenue -->
+  <div class="card hidden" id="welcome-section">
+    <h2>Bienvenue chez Osmoz !</h2>
+    <button id="go-osmoz-btn">Goûter à l'expérience Osmoz</button>
+    <button id="logout-btn" class="secondary-btn" style="margin-top: 1em;">Se déconnecter</button>
   </div>
 </body>
 
