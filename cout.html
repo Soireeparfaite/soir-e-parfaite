@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Combien ça coûte ? | Osmoz</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f5f0e8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      border-radius: 2em;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+      padding: 3em;
+      max-width: 600px;
+      width: 90%;
+      text-align: center;
+      animation: pop 0.6s ease forwards;
+    }
+
+    h1 {
+      font-size: 2.2em;
+      color: #0033a0;
+      margin-bottom: 0.5em;
+    }
+
+    h2 {
+      font-size: 3.2em;
+      margin: 0.2em 0;
+      background: linear-gradient(90deg, #0033a0, #0099ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: bold;
+      animation: pulse 2s infinite;
+    }
+
+    p {
+      font-size: 1.1em;
+      color: #444;
+      margin-top: 1.5em;
+    }
+
+    .button {
+      margin-top: 2em;
+      padding: 1em 2em;
+      font-size: 1.1em;
+      background-color: #0033a0;
+      color: white;
+      border: none;
+      border-radius: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      font-weight: bold;
+    }
+
+    .button:hover {
+      background-color: #002277;
+      transform: scale(1.05);
+    }
+
+    .footer {
+      margin-top: 2.5em;
+      color: #888;
+      font-size: 0.9em;
+    }
+
+    @keyframes pop {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.05); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>Combien ça coûte ?</h1>
+    <h2>Rien. Nada. Zéro. 😎</h2>
+    <p>
+      Chez <strong>Osmoz</strong>, on ne te vend pas du rêve…<br />
+      On te le **file gratuit**.<br />
+      Il te faut juste <strong>3 clics</strong> :
+    </p>
+    <p style="margin-top: 1em;">
+      🎯 Générer ta soirée<br />
+      📅 Réserver<br />
+      ✅ Valider
+    </p>
+    <button class="button" onclick="location.href='generateur.html'">Essayer maintenant</button>
+    <div class="footer">
+      Pas besoin de carte bancaire. Juste l'envie de kiffer.
+    </div>
+  </div>
+</body>
+</html>
