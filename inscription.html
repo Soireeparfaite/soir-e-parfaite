@@ -105,20 +105,42 @@
   </script>
 
   <style>
-    body {
+  body {
       font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      background-color: #f5f0e8;
-      background-image: url('thumbnail.jpeg');
+       margin: 0;
+       background-color: #f5f0e8;
+       min-height: 100vh;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       position: relative;
+       overflow: hidden; /* évite que les images débordent */
+}
 
-      background-position: center;    /* centre l’image */
+   .decor {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 150px; /* ajuste cette taille selon ton besoin */
+      height: auto;
+      opacity: 0.6;
+      z-index: 0;
+    }
 
-      width: 100vw;    /* largeur écran */
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+   .gauche {
+     left: 0;
+     margin-left: 20px;
+     }
+
+    .droite {
+      right: 0;
+      margin-right: 20px;
+    }
+
+      main {
+      position: relative;
+      z-index: 1; /* contenu au-dessus des images */
+      text-align: center;
     }
 
     .card {
