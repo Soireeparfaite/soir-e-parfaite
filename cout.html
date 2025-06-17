@@ -134,18 +134,14 @@
   </style>
 </head>
 <body>
-  <nav>
+    <nav>
     <div class="logo">OSMOZ</div>
     <ul>
       <li><a href="fonctionnement.html">Fonctionnement</a></li>
       <li><a href="cout.html">Combien ça coûte ?</a></li>
       <li><a href="#infos">Infos pratiques</a></li>
       <li><a href="generateur.html">Générer un menu</a></li>
-
-      <!-- Lien de connexion / inscription (visible par défaut) -->
       <li id="nav-auth"><a href="inscription.html">Se connecter / Inscription</a></li>
-
-      <!-- Lien Mon compte (caché par défaut) -->
       <li id="nav-user" class="hidden"><a href="moncompte.html" style="color: var(--accent); font-weight: bold;">👤 Mon compte</a></li>
     </ul>
   </nav>
@@ -158,23 +154,31 @@
   </div>
 
   <footer>&copy; 2025 OSMOZ — Gratuit, fluide, inoubliable.</footer>
-  const app = initializeApp(firebaseConfig);
+
+  <!-- Script Firebase pour gérer l'affichage dynamique du menu -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    const firebaseConfig = {
+      // Remplace par ta configuration Firebase
+    };
+
+    const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
     onAuthStateChanged(auth, (user) => {
-      const profilLi = document.getElementById("profil-li");
-      const connexionLi = document.getElementById("connexion-li");
-      const inscriptionLi = document.getElementById("inscription-li");
+      const navAuth = document.getElementById("nav-auth");
+      const navUser = document.getElementById("nav-user");
 
       if (user) {
-        if (profilLi) profilLi.style.display = "inline-block";
-        if (connexionLi) connexionLi.style.display = "none";
-        if (inscriptionLi) inscriptionLi.style.display = "none";
+        if (navAuth) navAuth.classList.add("hidden");
+        if (navUser) navUser.classList.remove("hidden");
       } else {
-        if (profilLi) profilLi.style.display = "none";
-        if (connexionLi) connexionLi.style.display = "inline-block";
-        if (inscriptionLi) inscriptionLi.style.display = "inline-block";
+        if (navAuth) navAuth.classList.remove("hidden");
+        if (navUser) navUser.classList.add("hidden");
       }
     });
+  </script>
 </body>
 </html>
