@@ -8,90 +8,181 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     :root {
-      --bg: #f4f0e5;
-      --accent-pink: #e94d66;
-      --accent-gold: #c9a227;
-      --accent-green: #89c9a4;
-      --text-dark: #2f2f2f;
-      --glass-bg: rgba(255, 255, 255, 0.5);
+      --bg-gradient: linear-gradient(135deg, #1f1c2c, #928dab);
+      --accent-pink: #ff79c6;
+      --accent-gold: #f1c40f;
+      --accent-green: #50fa7b;
+      --text-light: #f5f5f5;
+      --glass-bg: rgba(255, 255, 255, 0.08);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: 'Poppins', sans-serif;
-      background: var(--bg);
-      color: var(--text-dark);
+      background: var(--bg-gradient);
+      color: var(--text-light);
       min-height: 100vh;
+      padding: 0;
+      margin: 0;
     }
+
     nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 20px 40px;
-      background: var(--glass-bg);
-      backdrop-filter: blur(12px);
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
     }
-    .logo { font-family: 'Montserrat', sans-serif; font-size: 1.8rem; font-weight: bold; color: var(--accent-pink); }
+
+    .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #ff79c6;
+    }
+
     nav ul {
       display: flex;
       list-style: none;
       gap: 24px;
     }
+
     nav ul li a {
-      color: var(--text-dark);
+      color: #f5f5f5;
       text-decoration: none;
       font-weight: 500;
       font-size: 1rem;
+      transition: color 0.3s;
     }
-    nav ul li a:hover { color: var(--accent-gold); }
+
+    nav ul li a:hover {
+      color: #f1c40f;
+    }
+
     header {
       font-family: 'Montserrat', sans-serif;
       font-size: 2.5rem;
       font-weight: 700;
-      color: var(--accent-pink);
-      text-align: center;
+      background: linear-gradient(90deg, #ff79c6, #f1c40f);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       margin: 40px 0 20px;
+      text-align: center;
     }
+
     .account-container {
+      width: 100%;
       max-width: 1000px;
       margin: auto;
+      backdrop-filter: blur(16px);
       background: var(--glass-bg);
-      backdrop-filter: blur(20px);
       border-radius: 20px;
       padding: 40px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
       display: flex;
       flex-direction: column;
       gap: 30px;
     }
+
+    .user-info {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px;
+      border-radius: 16px;
+    }
+
     .user-info span {
       display: block;
       font-size: 1.1rem;
       margin-bottom: 5px;
     }
-    .user-actions { margin-top: 10px; }
+
+    .user-actions {
+      margin-top: 10px;
+    }
+
     .user-actions button {
-      background: linear-gradient(135deg, var(--accent-pink), var(--accent-gold));
+      background: linear-gradient(135deg, #ff79c6, #f1c40f);
       border: none;
-      color: white;
+      color: #000;
       padding: 10px 20px;
       margin-right: 10px;
       border-radius: 30px;
       font-weight: bold;
       cursor: pointer;
+      transition: all 0.3s ease;
     }
+
+    .user-actions button:hover {
+      filter: brightness(1.1);
+      transform: scale(1.05);
+    }
+
     .card {
-      background: white;
+      background: rgba(255, 255, 255, 0.07);
       border-radius: 18px;
       padding: 30px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
     }
-    .card h3 { color: var(--accent-green); margin-bottom: 15px; }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--accent-green);
+    }
+
+    .card ul, .card p {
+      font-size: 1rem;
+      line-height: 1.6;
+      list-style: none;
+    }
+
     .stats {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 20px;
+      margin-top: 20px;
     }
-    .stat-box h4 { color: var(--accent-gold); font-size: 1.2rem; }
-    .stat-box p { font-size: 2rem; font-weight: bold; }
+
+    .stat-box {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .stat-box h4 {
+      font-size: 1.2rem;
+      color: #f1c40f;
+      margin-bottom: 8px;
+    }
+
+    .stat-box p {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .account-container {
+        padding: 20px;
+      }
+
+      header {
+        font-size: 2rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -104,7 +195,76 @@
       <li><a href="/compte">Mon compte</a></li>
     </ul>
   </nav>
+
   <header>Mon Compte ✨</header>
+
+  <section class="account-container">
+    <div class="user-info">
+      <span><strong>Nom :</strong> <span id="userName"></span></span>
+      <span><strong>Email :</strong> <span id="userEmail"></span></span>
+      <div class="user-actions">
+        <button><i class="fas fa-pen"></i> Modifier</button>
+        <button><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3><i class="fas fa-history"></i> Historique des activités</h3>
+      <ul id="activityHistory"></ul>
+    </div>
+
+    <div class="card">
+      <h3><i class="fas fa-sliders-h"></i> Préférences</h3>
+      <ul id="userPreferences"></ul>
+    </div>
+
+    <div class="card">
+      <h3><i class="fas fa-chart-line"></i> Statistiques</h3>
+      <div class="stats" id="userStats"></div>
+    </div>
+  </section>
+
+  <script>
+    // Exemple de script JS pour injecter les données utilisateur dynamiquement
+    const user = {
+      name: "Sarah Dupont",
+      email: "sarah.dupont@example.com",
+      activities: ["Atelier céramique - 2 juin", "Brunch thématique - 9 juin"],
+      preferences: ["Thème: Romantique", "Budget: Moyen", "Lieu: Bordeaux"],
+      stats: [
+        { label: "Activités générées", value: 24 },
+        { label: "Temps gagné (h)", value: 12 },
+        { label: "Argent économisé (€)", value: 180 }
+      ]
+    };
+
+    document.getElementById("userName").textContent = user.name;
+    document.getElementById("userEmail").textContent = user.email;
+
+    const activityHistory = document.getElementById("activityHistory");
+    user.activities.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      activityHistory.appendChild(li);
+    });
+
+    const userPreferences = document.getElementById("userPreferences");
+    user.preferences.forEach(pref => {
+      const li = document.createElement("li");
+      li.textContent = pref;
+      userPreferences.appendChild(li);
+    });
+
+    const userStats = document.getElementById("userStats");
+    user.stats.forEach(stat => {
+      const div = document.createElement("div");
+      div.className = "stat-box";
+      div.innerHTML = `<h4>${stat.label}</h4><p>${stat.value}</p>`;
+      userStats.appendChild(div);
+    });
+  </script>
+</body>
+</html>
   <section class="account-container">
     <div class="user-info">
       <span><strong>Nom :</strong> <span id="user-name"></span></span>
