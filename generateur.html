@@ -24,16 +24,18 @@
       transition: background 0.6s ease-in-out;
     }
     nav {
-      background: var(--dark);
+      background: linear-gradient(rgb(239,231,220));
+      color: rgb(0,72,174);
       display: flex;
       justify-content: space-between;
       padding: 16px 30px;
+      align-items: center;
     }
 
     nav .logo {
       font-weight: bold;
-      font-size: 1.5rem;
-      color: var(--accent);
+      font-size: 2rem;
+      color: var(rgb(0,72,174));
     }
 
     nav ul {
@@ -42,13 +44,19 @@
       gap: 24px;
       margin: 0;
       padding: 0;
+      align-items: center;
     }
 
     nav ul li a {
-      color: var(--accent);
+      text-decoration: none;     /* enlève le soulignement */
+      color: inherit;            /* prend la couleur du parent */
+      font-weight: normal;
+      color: rgb(0,72,174));
+      text-decoration: none;
       font-weight: bold;
-      font-weight: 1rem;
+      font-weight: 1.5rem;
     }
+
      h1, h2, h3 { font-family: 'Montserrat', sans-serif; font-weight: 700; text-align: center; }
     @keyframes gradient {
       0% { background-position: 0% 50%; }
