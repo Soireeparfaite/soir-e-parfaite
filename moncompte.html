@@ -200,8 +200,8 @@
 
   <section class="account-container">
     <div class="user-info">
-      <span><strong>Nom :</strong> <!-- Inject real user name here --></span>
-      <span><strong>Email :</strong> <!-- Inject real email here --></span>
+      <span><strong>Nom :</strong> <span id="userName"></span></span>
+      <span><strong>Email :</strong> <span id="userEmail"></span></span>
       <div class="user-actions">
         <button><i class="fas fa-pen"></i> Modifier</button>
         <button><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
@@ -210,26 +210,59 @@
 
     <div class="card">
       <h3><i class="fas fa-history"></i> Historique des activités</h3>
-      <ul>
-        <!-- Inject real activity history here -->
-      </ul>
+      <ul id="activityHistory"></ul>
     </div>
 
     <div class="card">
       <h3><i class="fas fa-sliders-h"></i> Préférences</h3>
-      <ul>
-        <!-- Inject real user preferences here -->
-      </ul>
+      <ul id="userPreferences"></ul>
     </div>
 
     <div class="card">
       <h3><i class="fas fa-chart-line"></i> Statistiques</h3>
-      <div class="stats">
-        <!-- Inject real user statistics here -->
-      </div>
+      <div class="stats" id="userStats"></div>
     </div>
   </section>
+
+  <script>
+    // Exemple de script JS pour injecter les données utilisateur dynamiquement
+    const user = {
+      name: "Sarah Dupont",
+      email: "sarah.dupont@example.com",
+      activities: ["Atelier céramique - 2 juin", "Brunch thématique - 9 juin"],
+      preferences: ["Thème: Romantique", "Budget: Moyen", "Lieu: Bordeaux"],
+      stats: [
+        { label: "Activités générées", value: 24 },
+        { label: "Temps gagné (h)", value: 12 },
+        { label: "Argent économisé (€)", value: 180 }
+      ]
+    };
+
+    document.getElementById("userName").textContent = user.name;
+    document.getElementById("userEmail").textContent = user.email;
+
+    const activityHistory = document.getElementById("activityHistory");
+    user.activities.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      activityHistory.appendChild(li);
+    });
+
+    const userPreferences = document.getElementById("userPreferences");
+    user.preferences.forEach(pref => {
+      const li = document.createElement("li");
+      li.textContent = pref;
+      userPreferences.appendChild(li);
+    });
+
+    const userStats = document.getElementById("userStats");
+    user.stats.forEach(stat => {
+      const div = document.createElement("div");
+      div.className = "stat-box";
+      div.innerHTML = `<h4>${stat.label}</h4><p>${stat.value}</p>`;
+      userStats.appendChild(div);
+    });
+  </script>
 </body>
-
-
 </html>
+
