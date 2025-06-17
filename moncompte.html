@@ -5,80 +5,141 @@
   <title>Mon Compte - Expériences</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-      color: #fff;
-      padding: 2em;
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f7f4ef;
+    color: #1e1e1e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 60px 20px;
+    background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+  }
+
+  .container {
+    max-width: 800px;
+    width: 100%;
+    background: white;
+    border-radius: 24px;
+    padding: 60px 50px;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #0033a0;
+    margin-bottom: 30px;
+    letter-spacing: -1px;
+  }
+
+  .info-section {
+    margin-bottom: 2.5em;
+  }
+
+  .info-section h2 {
+    font-size: 2rem;
+    background: linear-gradient(to right, #6e8efb, #a777e3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+
+  .info-card {
+    background: #f1f0ed;
+    padding: 1.5em;
+    border-left: 6px solid #6e8efb;
+    border-radius: 16px;
+    margin-bottom: 1.5em;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04);
+    transition: transform 0.2s ease;
+  }
+
+  .info-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .note {
+    font-weight: bold;
+    color: #ffb300;
+  }
+
+  .favorite {
+    background: #50fa7b;
+    color: #000;
+    font-weight: 600;
+    padding: 0.5em 1.2em;
+    border-radius: 30px;
+    display: inline-block;
+    margin-top: 0.8em;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  #back-btn {
+    display: inline-block;
+    margin: 3em auto 0;
+    padding: 14px 32px;
+    background: linear-gradient(to right, #ff79c6, #ff92d0);
+    color: white;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: 0 8px 20px rgba(255, 121, 198, 0.3);
+    transition: transform 0.3s ease, filter 0.3s ease;
+  }
+
+  #back-btn:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+  }
+
+  .empty {
+    color: #aaa;
+    font-style: italic;
+    font-size: 0.95rem;
+    padding: 0.5em;
+  }
+
+  footer {
+    margin-top: 60px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #888;
+  }
+
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 2.4rem;
     }
 
     .container {
-      max-width: 700px;
-      margin: auto;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 20px;
-      padding: 2em;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 2em;
-      margin-bottom: 1em;
-    }
-
-    .info-section {
-      margin-bottom: 2em;
+      padding: 40px 20px;
     }
 
     .info-section h2 {
-      color: #8be9fd;
-      margin-bottom: 0.5em;
+      font-size: 1.6rem;
     }
+  }
 
-    .info-card {
-      background: rgba(0,0,0,0.3);
-      padding: 1em;
-      margin-bottom: 1em;
-      border-radius: 10px;
-    }
-
-    .note {
-      font-weight: bold;
-      color: #f1fa8c;
-    }
-
-    .favorite {
-      background: #50fa7b;
-      padding: 0.5em 1em;
-      border-radius: 20px;
-      color: #000;
-      display: inline-block;
-      margin-top: 0.5em;
-    }
-
-    #back-btn {
-      display: block;
-      margin: 2em auto 0;
-      padding: 0.8em 1.5em;
-      background: #ff79c6;
-      color: white;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      font-size: 1em;
-    }
-
-    #back-btn:hover {
-      background: #ff92d0;
-    }
-
-    .empty {
-      color: #888;
-      font-style: italic;
-    }
+  .hidden {
+    display: none !important;
+  }
   </style>
 </head>
 <body>
