@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mon Compte - Expériences</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      padding: 2em;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 2em;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 1em;
+    }
+
+    .info-section {
+      margin-bottom: 2em;
+    }
+
+    .info-section h2 {
+      color: #8be9fd;
+      margin-bottom: 0.5em;
+    }
+
+    .info-card {
+      background: rgba(0,0,0,0.3);
+      padding: 1em;
+      margin-bottom: 1em;
+      border-radius: 10px;
+    }
+
+    .note {
+      font-weight: bold;
+      color: #f1fa8c;
+    }
+
+    .favorite {
+      background: #50fa7b;
+      padding: 0.5em 1em;
+      border-radius: 20px;
+      color: #000;
+      display: inline-block;
+      margin-top: 0.5em;
+    }
+
+    #back-btn {
+      display: block;
+      margin: 2em auto 0;
+      padding: 0.8em 1.5em;
+      background: #ff79c6;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+
+    #back-btn:hover {
+      background: #ff92d0;
+    }
+
+    .empty {
+      color: #888;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Bienvenue <span id="userEmail"></span></h1>
+
+    <div class="info-section">
+      <h2>Vos expériences passées :</h2>
+      <div id="experienceList"></div>
+    </div>
+
+    <div class="info-section">
+      <h2>Votre restaurant préféré :</h2>
+      <div id="favoriteRestaurant" class="info-card"></div>
+    </div>
+
+    <button id="back-btn">Retour à l’accueil</button>
+  </div>
+
+  <script>
+    // Récupération des données
+    const userEmail = localStorage.getItem("userEmail") || "Utilisateur inconnu";
+    const historique = JSON.parse(localStorage.getItem("historique") || "[]");
+
+    document.getElementById("userEmail").textContent = userEmail;
+
+    const experienceList = document.getElementById("experienceList");
+    if (historique.length === 0) {
+      experienceList.innerHTML = "<p class='empty'>Aucune expérience enregistrée.</p>";
+    } else {
+      const freq = {};
+      historique.forEach(exp => {
+        const note = exp.note ? `<span class='note'>Note : ${exp.note}/5</span>` : "<span class='note'>Non noté</span>";
+        const html = `<div class='info-card'>
+            <strong>${exp.nom}</strong><br>
+            ${note}
+          </div>`;
+        experienceList.innerHTML += html;
+
+        freq[exp.nom] = (freq[exp.nom] || 0) + 1;
+      });
+
+      // Déterminer le restaurant préféré
+      const entries = Object.entries(freq);
+      if (entries.length > 0) {
+        const [favori, count] = entries.reduce((a, b) => a[1] > b[1] ? a : b);
+        document.getElementById("favoriteRestaurant").innerHTML = 
+          `<span class="favorite">${favori}</span> <br> (${count} visite${count > 1 ? 's' : ''})`;
+      } else {
+        document.getElementById("favoriteRestaurant").innerHTML = 
+          "<p class='empty'>Aucune donnée pour déterminer votre restaurant préféré.</p>";
+      }
+    }
+
+    document.getElementById("back-btn").addEventListener("click", () => {
+      window.location.href = "index.html"; // ou la page d’accueil réelle
+    });
+  </script>
+</body>
+</html>
