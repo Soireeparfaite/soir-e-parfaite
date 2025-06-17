@@ -74,10 +74,14 @@
     }
 
     h2 {
-      font-size: 4rem;
-      color: linear-gradient(135deg, #6e8efb, #a777e3); /* dégradé moderne */
-      margin-bottom: 10px;
-    }
+  font-size: 4rem;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; /* pour compatibilité */
+  color: transparent;     /* fallback */
+  margin-bottom: 10px;
+}
 
     p {
       font-size: 1.2rem;
