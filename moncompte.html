@@ -1,169 +1,97 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mon Compte | OSMOZ ✨</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     :root {
-      --bg-gradient: linear-gradient(135deg, #fef6f0, #ffe4dc);
-      --accent-pink: #e94444;
-      --accent-gold: #f5d26b;
-      --accent-green: #7dd87d;
-      --text-dark: #1a1a1a;
+      --bg: #f4f0e5;
+      --accent-pink: #e94d66;
+      --accent-gold: #c9a227;
+      --accent-green: #89c9a4;
+      --text-dark: #2f2f2f;
       --glass-bg: rgba(255, 255, 255, 0.5);
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Poppins', sans-serif;
-      background: var(--bg-gradient);
+      background: var(--bg);
       color: var(--text-dark);
       min-height: 100vh;
     }
-
     nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 20px 40px;
-      background-color: rgba(255, 255, 255, 0.6);
-      backdrop-filter: blur(10px);
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
     }
-
-    .logo {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: var(--accent-pink);
-    }
-
+    .logo { font-family: 'Montserrat', sans-serif; font-size: 1.8rem; font-weight: bold; color: var(--accent-pink); }
     nav ul {
       display: flex;
       list-style: none;
       gap: 24px;
     }
-
     nav ul li a {
       color: var(--text-dark);
       text-decoration: none;
       font-weight: 500;
       font-size: 1rem;
-      transition: color 0.3s;
     }
-
-    nav ul li a:hover {
-      color: var(--accent-gold);
-    }
-
+    nav ul li a:hover { color: var(--accent-gold); }
     header {
       font-family: 'Montserrat', sans-serif;
       font-size: 2.5rem;
       font-weight: 700;
+      color: var(--accent-pink);
       text-align: center;
       margin: 40px 0 20px;
-      color: var(--accent-pink);
     }
-
     .account-container {
-      width: 100%;
       max-width: 1000px;
       margin: auto;
-      backdrop-filter: blur(16px);
       background: var(--glass-bg);
+      backdrop-filter: blur(20px);
       border-radius: 20px;
       padding: 40px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
       display: flex;
       flex-direction: column;
       gap: 30px;
     }
-
     .user-info span {
       display: block;
       font-size: 1.1rem;
       margin-bottom: 5px;
     }
-
-    .user-actions {
-      margin-top: 10px;
-    }
-
+    .user-actions { margin-top: 10px; }
     .user-actions button {
-      background: linear-gradient(135deg, #e94444, #f5d26b);
+      background: linear-gradient(135deg, var(--accent-pink), var(--accent-gold));
       border: none;
-      color: #fff;
+      color: white;
       padding: 10px 20px;
       margin-right: 10px;
       border-radius: 30px;
       font-weight: bold;
       cursor: pointer;
-      transition: all 0.3s ease;
     }
-
-    .user-actions button:hover {
-      filter: brightness(1.1);
-      transform: scale(1.05);
-    }
-
     .card {
-      background: rgba(255, 255, 255, 0.4);
+      background: white;
       border-radius: 18px;
       padding: 30px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
     }
-
-    .card:hover {
-      transform: translateY(-5px);
-    }
-
-    .card h3 {
-      font-size: 1.5rem;
-      margin-bottom: 15px;
-      color: var(--accent-green);
-    }
-
+    .card h3 { color: var(--accent-green); margin-bottom: 15px; }
     .stats {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 20px;
     }
-
-    .stat-box {
-      background: rgba(255, 255, 255, 0.6);
-      border-radius: 14px;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
-    }
-
-    .stat-box h4 {
-      font-size: 1.2rem;
-      color: var(--accent-gold);
-      margin-bottom: 8px;
-    }
-
-    .stat-box p {
-      font-size: 2rem;
-      font-weight: bold;
-    }
-
-    @media (max-width: 768px) {
-      .account-container {
-        padding: 20px;
-      }
-      header {
-        font-size: 2rem;
-      }
-    }
+    .stat-box h4 { color: var(--accent-gold); font-size: 1.2rem; }
+    .stat-box p { font-size: 2rem; font-weight: bold; }
   </style>
 </head>
 <body>
@@ -176,63 +104,56 @@
       <li><a href="/compte">Mon compte</a></li>
     </ul>
   </nav>
-
   <header>Mon Compte ✨</header>
-
   <section class="account-container">
     <div class="user-info">
       <span><strong>Nom :</strong> <span id="user-name"></span></span>
       <span><strong>Email :</strong> <span id="user-email"></span></span>
       <div class="user-actions">
-        <button><i class="fas fa-pen"></i> Modifier</button>
+        <button onclick="editUser()"><i class="fas fa-pen"></i> Modifier</button>
         <button onclick="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
       </div>
     </div>
-
     <div class="card">
       <h3><i class="fas fa-history"></i> Historique des activités</h3>
-      <ul id="history"></ul>
+      <ul id="activity-history"></ul>
     </div>
-
     <div class="card">
       <h3><i class="fas fa-sliders-h"></i> Préférences</h3>
-      <ul id="preferences"></ul>
+      <ul id="user-preferences"></ul>
     </div>
-
     <div class="card">
       <h3><i class="fas fa-chart-line"></i> Statistiques</h3>
-      <div class="stats" id="stats"></div>
+      <div class="stats" id="user-stats"></div>
     </div>
   </section>
-
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const user = JSON.parse(localStorage.getItem("osmozUser"));
-      if (!user) return window.location.href = "/connexion";
+    const user = JSON.parse(localStorage.getItem('osmozUser'));
+    if (!user) {
+      window.location.href = "/connexion";
+    } else {
       document.getElementById("user-name").textContent = user.name;
       document.getElementById("user-email").textContent = user.email;
-
-      // Exemple : données réelles via backend (à adapter)
-      fetch('/api/userData')
+      fetch("/api/userData")
         .then(res => res.json())
         .then(data => {
-          document.getElementById("history").innerHTML = data.history.map(item => `<li>${item}</li>`).join("");
-          document.getElementById("preferences").innerHTML = `
+          document.getElementById("activity-history").innerHTML = data.history.map(h => `<li>${h}</li>`).join("");
+          document.getElementById("user-preferences").innerHTML = `
             <li>Thème : ${data.preferences.theme}</li>
             <li>Budget : ${data.preferences.budget}</li>
-            <li>Lieu favori : ${data.preferences.place}</li>
-          `;
-          document.getElementById("stats").innerHTML = `
+            <li>Lieu favori : ${data.preferences.place}</li>`;
+          document.getElementById("user-stats").innerHTML = `
             <div class="stat-box"><h4>Activités</h4><p>${data.stats.activities}</p></div>
-            <div class="stat-box"><h4>Temps</h4><p>${data.stats.time}</p></div>
-            <div class="stat-box"><h4>Économie</h4><p>${data.stats.savings}</p></div>
-          `;
+            <div class="stat-box"><h4>Temps passé</h4><p>${data.stats.time}</p></div>
+            <div class="stat-box"><h4>Économies</h4><p>${data.stats.savings}</p></div>`;
         });
-    });
-
+    }
     function logout() {
       localStorage.removeItem("osmozUser");
       window.location.href = "/connexion";
+    }
+    function editUser() {
+      alert("Fonctionnalité à venir ✨");
     }
   </script>
 </body>
