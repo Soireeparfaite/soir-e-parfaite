@@ -179,8 +179,9 @@
       <li><a href="#fonctionnement">Fonctionnement</a></li>
       <li><a href="#avis">Avis</a></li>
       <li><a href="generateur.html">Générer un menu</a></li>
-      <li><a href="#">Se connecter</a></li>
-      <li><a href="inscription.html">Inscription gratuite</a></li>
+      <li id="connexion-li"><a href="connexion.html">Se connecter</a></li>
+      <li id="inscription-li"><a href="inscription.html">Inscription gratuite</a></li>
+      <li id="profil-li" style="display: none;"><a href="profil.html">Mon compte</a></li>
     </ul>
   </nav>
 
@@ -232,6 +233,38 @@
     &copy; 2025 OSMOZ. Tous droits réservés.
   </footer>
 
-</body>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
 
+    const firebaseConfig = {
+      apiKey: "AIzaSyAPO0hI2RsAbZXSgw99shs8JO9_UbMbc5E",
+      authDomain: "soiree-parfaite.firebaseapp.com",
+      projectId: "soiree-parfaite",
+      storageBucket: "soiree-parfaite.appspot.com",
+      messagingSenderId: "420267229686",
+      appId: "1:420267229686:web:0395aa0dea26d5278e07d7"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, (user) => {
+      const profilLi = document.getElementById("profil-li");
+      const connexionLi = document.getElementById("connexion-li");
+      const inscriptionLi = document.getElementById("inscription-li");
+
+      if (user) {
+        if (profilLi) profilLi.style.display = "inline-block";
+        if (connexionLi) connexionLi.style.display = "none";
+        if (inscriptionLi) inscriptionLi.style.display = "none";
+      } else {
+        if (profilLi) profilLi.style.display = "none";
+        if (connexionLi) connexionLi.style.display = "inline-block";
+        if (inscriptionLi) inscriptionLi.style.display = "inline-block";
+      }
+    });
+  </script>
+
+</body>
 </html>
