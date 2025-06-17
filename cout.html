@@ -158,6 +158,23 @@
   </div>
 
   <footer>&copy; 2025 OSMOZ — Gratuit, fluide, inoubliable.</footer>
+  const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
+    onAuthStateChanged(auth, (user) => {
+      const profilLi = document.getElementById("profil-li");
+      const connexionLi = document.getElementById("connexion-li");
+      const inscriptionLi = document.getElementById("inscription-li");
+
+      if (user) {
+        if (profilLi) profilLi.style.display = "inline-block";
+        if (connexionLi) connexionLi.style.display = "none";
+        if (inscriptionLi) inscriptionLi.style.display = "none";
+      } else {
+        if (profilLi) profilLi.style.display = "none";
+        if (connexionLi) connexionLi.style.display = "inline-block";
+        if (inscriptionLi) inscriptionLi.style.display = "inline-block";
+      }
+    });
 </body>
 </html>
