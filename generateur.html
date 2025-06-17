@@ -179,29 +179,68 @@
   </style>
 </head>
 <body>
-<nav>
-  <div class="logo">OSMOZ</div>
-  <ul>
-    <li><a href="index.html">Accueil</a></li>
-    <li><a href="fonctionnement.html">Fonctionnement</a></li>
-    <li><a href="#avis">Avis</a></li>
-    <li><a href="generateur.html">Générer un menu</a></li>
-    <li id="connexion-li"><a href="connexion.html">Se connecter</a></li>
-    <li id="inscription-li"><a href="inscription.html">Inscription gratuite</a></li>
+  <nav>
+    <div class="logo">OSMOZ</div>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="fonctionnement.html">Fonctionnement</a></li>
+      <li><a href="#avis">Avis</a></li>
+      <li><a href="generateur.html">Générer un menu</a></li>
 
-    <!-- Mon compte dropdown -->
-    <li id="profil-li" class="dropdown" style="display: none;">
-      <a href="#">Mon compte ▾</a>
-      <ul class="dropdown-content">
-        <li><a href="profil.html">Profil</a></li>
-        <li><a href="#" id="logout-btn">Se déconnecter</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+      <!-- Liens connexion / inscription -->
+      <li id="connexion-li"><a href="connexion.html">Se connecter</a></li>
+      <li id="inscription-li"><a href="inscription.html">Inscription gratuite</a></li>
+
+      <!-- Mon compte dropdown (caché par défaut) -->
+      <li id="profil-li" class="dropdown" style="display: none;">
+        <a href="#">Mon compte ▾</a>
+        <ul class="dropdown-content">
+          <li><a href="profil.html">Profil</a></li>
+          <li><a href="#" id="logout-btn">Se déconnecter</a></li>
+        </ul>
+      </li>
+    </ul>
   </nav>
-  <header>OSMOZ ✨<br><small>Crée ton programme de rêve</small></header>
+
+  <header>
+    OSMOZ ✨<br>
+    <small>Crée ton programme de rêve</small>
+  </header>
   <main>
+    <!-- Contenu principal ici -->
+  </main>
+
+  <script>
+    // Simule l'état de connexion (true = connecté, false = non connecté)
+    const isLoggedIn = true; 
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const connexionLi = document.getElementById('connexion-li');
+      const inscriptionLi = document.getElementById('inscription-li');
+      const profilLi = document.getElementById('profil-li');
+
+      if (isLoggedIn) {
+        // Cache inscription/connexion, affiche mon compte
+        connexionLi.style.display = 'none';
+        inscriptionLi.style.display = 'none';
+        profilLi.style.display = 'block';
+      } else {
+        // Affiche inscription/connexion, cache mon compte
+        connexionLi.style.display = 'list-item';
+        inscriptionLi.style.display = 'list-item';
+        profilLi.style.display = 'none';
+      }
+
+      // Exemple simple de logout qui rafraîchit la page (à remplacer par ta vraie logique)
+      document.getElementById('logout-btn').addEventListener('click', e => {
+        e.preventDefault();
+        alert('Déconnexion...');
+        // Ici tu enlèverais le token/session côté client
+        location.reload();
+      });
+    });
+  </script>
+</body>
     <label for="theme">Choisis ton ambiance :</label>
     <select id="theme" onchange="changeTheme()">
       <option value="romantique">Romantique</option>
@@ -1112,6 +1151,11 @@ function calculateBudget() {
   const pageItems = currentActivities.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   const sum = pageItems.reduce((s, a) => s + (a.price * people), 0);
   budgetDisplay.textContent = `Budget total sur cette page : ${sum} €`;
+  const isLoggedIn = true; // true si connecté, false sinon
 }
+window.addEventListener('DOMContentLoaded', () => {
+  const authLinks = document.querySelectorAll('.auth-link');
+  const accountLink = document.querySelector('.account-link');
+});
 </body>
 </html>
