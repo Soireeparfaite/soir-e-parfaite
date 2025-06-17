@@ -179,16 +179,26 @@
   </style>
 </head>
 <body>
-  <nav>
-    <div class="logo">OSMOZ</div>
-    <ul>
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="fonctionnement.html">Fonctionnement</a></li>
-      <li><a href="#">Tarifs</a></li>
-      <li><a href="generateur.html">Générer un menu</a></li>
-      <li id="nav-auth"><a href="inscription.html">Connexion / Inscription</a></li>
-      <li id="nav-user" class="hidden"><a href="compte.html">👤 Mon compte</a></li>
-    </ul>
+<nav>
+  <div class="logo">OSMOZ</div>
+  <ul>
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="fonctionnement.html">Fonctionnement</a></li>
+    <li><a href="#avis">Avis</a></li>
+    <li><a href="generateur.html">Générer un menu</a></li>
+    <li id="connexion-li"><a href="connexion.html">Se connecter</a></li>
+    <li id="inscription-li"><a href="inscription.html">Inscription gratuite</a></li>
+
+    <!-- Mon compte dropdown -->
+    <li id="profil-li" class="dropdown" style="display: none;">
+      <a href="#">Mon compte ▾</a>
+      <ul class="dropdown-content">
+        <li><a href="profil.html">Profil</a></li>
+        <li><a href="#" id="logout-btn">Se déconnecter</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
   </nav>
   <header>OSMOZ ✨<br><small>Crée ton programme de rêve</small></header>
   <main>
@@ -1103,6 +1113,5 @@ function calculateBudget() {
   const sum = pageItems.reduce((s, a) => s + (a.price * people), 0);
   budgetDisplay.textContent = `Budget total sur cette page : ${sum} €`;
 }
-</script>
 </body>
 </html>
