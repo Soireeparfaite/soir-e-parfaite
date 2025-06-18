@@ -24,39 +24,41 @@
   text-align: center;
   padding: 60px 20px;
 }
-     nav {
-      background: linear-gradient(rgb(239,231,220));
-      color: rgb(0, 72, 174);
-      display: flex;
-      justify-content: space-between;
-      padding: 16px 30px;
-      align-items: center;
-    }
+    nav {
+  background: rgb(239,231,220);
+  color: rgb(0, 72, 174);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 30px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
 
-    nav .logo {
-      font-weight: bold;
-      font-size: 2rem;
-      color: var(rgb(0,72,174));
-    }
+nav .logo {
+  font-weight: bold;
+  font-size: 2rem;
+  color: rgb(0,72,174);
+}
 
-    nav ul {
-      display: flex;
-      list-style: none;
-      gap: 24px;
-      margin: 0;
-      padding: 0;
-      align-items: center;
-    }
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
 
-    nav ul li a {
-      text-decoration: none;     /* enlève le soulignement */
-      color: inherit;            /* prend la couleur du parent */
-      font-weight: normal;
-      color: rgb(0,72,174));
-      text-decoration: none;
-      font-weight: bold;
-      font-weight: 1.5rem;
-    }
+nav ul li a {
+  text-decoration: none;
+  color: rgb(0,72,174);
+  font-size: 1.2rem;
+  font-weight: bold;
+}
 
     .container {
       background: white;
