@@ -249,7 +249,7 @@
 
       if (!docSnap.exists()) {
         await setDoc(userRef, {
-          name: user.displayName || "Utilisateur",
+          name: user.displayName,
           email: user.email,
           preferences: [],
           activities: [],
