@@ -250,44 +250,57 @@
       return;
     }
 
-    const userDoc = await getDoc(doc(db, "users", user.uid));
-    const data = userDoc.exists() ? userDoc.data() : {};
+import { setDoc, doc, getDoc } from "firebase/firestore";
+import { db } from "./firebase-config"; // assure-toi que tu as bien exporté db dans ce fichier
 
-    document.getElementById("userName").textContent = data.name || user.displayName || "Utilisateur";
-    document.getElementById("userEmail").textContent = user.email;
-
-    const activities = data.activities || [];
-    const preferences = data.preferences || [];
-    const stats = data.stats || [];
-
-    const historyEl = document.getElementById("activityHistory");
-    activities.forEach(act => {
-      const li = document.createElement("li");
-      li.textContent = act;
-      historyEl.appendChild(li);
-    });
-
-    const prefEl = document.getElementById("userPreferences");
-    preferences.forEach(pref => {
-      const li = document.createElement("li");
-      li.textContent = pref;
-      prefEl.appendChild(li);
-    });
-
-    const statsEl = document.getElementById("userStats");
-    stats.forEach(stat => {
-      const div = document.createElement("div");
-      div.className = "stat-box";
-      div.innerHTML = `<h4>${stat.title}</h4><p>${stat.value}</p>`;
-      statsEl.appendChild(div);
-    });
+// Après une inscription réussie (ex: avec Firebase Auth)
+async function handleUserRegistration(user) {
+  // Enregistrement dans Firestore
+  await setDoc(doc(db, "users", user.uid), {
+    name: "username",
+    email: user.email,
+    preferences: [],
+    activities: [],
+    stats: []
   });
 
-  // Bouton Déconnexion
-  document.querySelector(".fa-sign-out-alt").parentElement.addEventListener("click", async () => {
-    await signOut(auth);
-    window.location.href = "login.html";
+  // Lecture des données pour affichage
+  const userDoc = await getDoc(doc(db, "users", user.uid));
+  const data = userDoc.exists() ? userDoc.data() : {};
+
+  // Affichage dans la page
+  document.getElementById("userName").textContent = data.name || user.displayName || "Utilisateur";
+  document.getElementById("userEmail").textContent = user.email;
+
+  const activities = data.activities || [];
+  const preferences = data.preferences || [];
+  const stats = data.stats || [];
+
+  const historyEl = document.getElementById("activityHistory");
+  historyEl.innerHTML = ""; // pour éviter les doublons
+  activities.forEach(act => {
+    const li = document.createElement("li");
+    li.textContent = act;
+    historyEl.appendChild(li);
   });
+
+  const prefEl = document.getElementById("userPreferences");
+  prefEl.innerHTML = "";
+  preferences.forEach(pref => {
+    const li = document.createElement("li");
+    li.textContent = pref;
+    prefEl.appendChild(li);
+  });
+
+  const statsEl = document.getElementById("userStats");
+  statsEl.innerHTML = "";
+  stats.forEach(stat => {
+    const div = document.createElement("div");
+    div.className = "stat-box";
+    div.innerHTML = `<h4>${stat.title}</h4><p>${stat.value}</p>`;
+    statsEl.appendChild(div);
+  });
+}
 </script>
 </body>
 </html>
