@@ -224,60 +224,70 @@
     </div>
   </section>
 
-  <script>
-    async function fetchUserData() {
-      try {
-        const res = await fetch('/api/user/profile', {
-          credentials: 'include'
-        });
-        if (!res.ok) throw new Error('Erreur de chargement du profil');
-        const user = await res.json();
+ <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-        document.getElementById("userName").textContent = user.name;
-        document.getElementById("userEmail").textContent = user.email;
+  const firebaseConfig = {
+    apiKey: "AIzaSyAPO0hI2RsAbZXSgw99shs8JO9_UbMbc5E",
+    authDomain: "soiree-parfaite.firebaseapp.com",
+    projectId: "soiree-parfaite",
+    storageBucket: "soiree-parfaite.firebasestorage.app",
+    messagingSenderId: "420267229686",
+    appId: "1:420267229686:web:0395aa0dea26d5278e07d7"
+  };
 
-        const historyEl = document.getElementById("activityHistory");
-        user.activities.forEach(act => {
-          const li = document.createElement("li");
-          li.textContent = act;
-          historyEl.appendChild(li);
-        });
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
-        const prefEl = document.getElementById("userPreferences");
-        user.preferences.forEach(pref => {
-          const li = document.createElement("li");
-          li.textContent = pref;
-          prefEl.appendChild(li);
-        });
-
-        const statsEl = document.getElementById("userStats");
-        user.stats.forEach(stat => {
-          const div = document.createElement("div");
-          div.className = "stat-box";
-          div.innerHTML = `<h4>${stat.title}</h4><p>${stat.value}</p>`;
-          statsEl.appendChild(div);
-        });
-      } catch (err) {
-        alert('Impossible de charger les données utilisateur.');
-        console.error(err);
-      }
+  // Vérifie si l'utilisateur est connecté
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      alert("Veuillez vous connecter.");
+      window.location.href = "login.html"; // redirection si non connecté
+      return;
     }
 
-    function editProfile() {
-      window.location.href = '/modifier-profil.html';
-    }
+    const userDoc = await getDoc(doc(db, "users", user.uid));
+    const data = userDoc.exists() ? userDoc.data() : {};
 
-    function logout() {
-      fetch('/api/auth/logout', {
-        method: 'POST',
-        credentials: 'include'
-      }).then(() => {
-        window.location.href = '/connexion.html';
-      });
-    }
+    document.getElementById("userName").textContent = data.name || user.displayName || "Utilisateur";
+    document.getElementById("userEmail").textContent = user.email;
 
-    window.addEventListener('DOMContentLoaded', fetchUserData);
-  </script>
+    const activities = data.activities || [];
+    const preferences = data.preferences || [];
+    const stats = data.stats || [];
+
+    const historyEl = document.getElementById("activityHistory");
+    activities.forEach(act => {
+      const li = document.createElement("li");
+      li.textContent = act;
+      historyEl.appendChild(li);
+    });
+
+    const prefEl = document.getElementById("userPreferences");
+    preferences.forEach(pref => {
+      const li = document.createElement("li");
+      li.textContent = pref;
+      prefEl.appendChild(li);
+    });
+
+    const statsEl = document.getElementById("userStats");
+    stats.forEach(stat => {
+      const div = document.createElement("div");
+      div.className = "stat-box";
+      div.innerHTML = `<h4>${stat.title}</h4><p>${stat.value}</p>`;
+      statsEl.appendChild(div);
+    });
+  });
+
+  // Bouton Déconnexion
+  document.querySelector(".fa-sign-out-alt").parentElement.addEventListener("click", async () => {
+    await signOut(auth);
+    window.location.href = "login.html";
+  });
+</script>
 </body>
 </html>
-
