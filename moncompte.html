@@ -29,38 +29,39 @@
       min-height: 100vh;
     }
 
-    nav {
+      nav {
+      background: linear-gradient(rgb(239,231,220));
+      color: rgb(0,72,174);
       display: flex;
       justify-content: space-between;
+      padding: 16px 30px;
       align-items: center;
-      padding: 20px 40px;
-      background : rgb(239, 231, 220);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+
     }
 
-    .logo {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.8rem;
+    nav .logo {
       font-weight: bold;
-      color: var(--accent-red);
+      font-size: 2rem;
+      color:#b30808 ;
     }
 
     nav ul {
       display: flex;
       list-style: none;
       gap: 24px;
+      margin: 0;
+      padding: 0;
+      align-items: center;
     }
 
     nav ul li a {
-      color: var(--text-dark);
+      text-decoration: none;     /* enlève le soulignement */
+      color: inherit;            /* prend la couleur du parent */
+      font-weight: normal;
+      color: #b30808;
       text-decoration: none;
-      font-weight: 500;
-      font-size: 1rem;
-      transition: color 0.3s;
-    }
-
-    nav ul li a:hover {
-      color: var(--accent-red);
+      font-weight: bold;
+      font-weight: 1.5rem;
     }
 
     header {
