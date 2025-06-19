@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mon Compte | OSMOZ</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-</head>
-<body>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
     :root {
       --bg-gradient: linear-gradient(135deg, #f9f4ef, #fffdf8);
@@ -26,25 +24,24 @@
 
     body {
       font-family: 'Poppins', sans-serif;
-      background : rgb(239, 231, 220);
+      background: rgb(239, 231, 220);
       color: var(--text-dark);
       min-height: 100vh;
     }
 
-      nav {
+    nav {
       background: linear-gradient(rgb(239,231,220));
       color: rgb(0,72,174);
       display: flex;
       justify-content: space-between;
       padding: 16px 30px;
       align-items: center;
-
     }
 
     nav .logo {
       font-weight: bold;
       font-size: 2rem;
-      color:#b30808 ;
+      color: #b30808;
     }
 
     nav ul {
@@ -57,13 +54,10 @@
     }
 
     nav ul li a {
-      text-decoration: none;     /* enlève le soulignement */
-      color: inherit;            /* prend la couleur du parent */
-      font-weight: normal;
-      color: #b30808;
       text-decoration: none;
+      color: #b30808;
       font-weight: bold;
-      font-weight: 1.5rem;
+      font-size: 1.2rem;
     }
 
     header {
@@ -179,6 +173,7 @@
       .account-container {
         padding: 20px;
       }
+
       header {
         font-size: 2rem;
       }
@@ -224,83 +219,87 @@
     </div>
   </section>
 
- <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyAPO0hI2RsAbZXSgw99shs8JO9_UbMbc5E",
-    authDomain: "soiree-parfaite.firebaseapp.com",
-    projectId: "soiree-parfaite",
-    storageBucket: "soiree-parfaite.firebasestorage.app",
-    messagingSenderId: "420267229686",
-    appId: "1:420267229686:web:0395aa0dea26d5278e07d7"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyAPO0hI2RsAbZXSgw99shs8JO9_UbMbc5E",
+      authDomain: "soiree-parfaite.firebaseapp.com",
+      projectId: "soiree-parfaite",
+      storageBucket: "soiree-parfaite.appspot.com",
+      messagingSenderId: "420267229686",
+      appId: "1:420267229686:web:0395aa0dea26d5278e07d7"
+    };
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-  // Vérifie si l'utilisateur est connecté
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      alert("Veuillez vous connecter.");
-      window.location.href = "login.html"; // redirection si non connecté
-      return;
-    }
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        alert("Veuillez vous connecter.");
+        window.location.href = "login.html";
+        return;
+      }
 
-import { setDoc, doc, getDoc } from "firebase/firestore";
-import { db } from "./firebase-config"; // assure-toi que tu as bien exporté db dans ce fichier
+      const userRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(userRef);
 
-// Après une inscription réussie (ex: avec Firebase Auth)
-async function handleUserRegistration(user) {
-  // Enregistrement dans Firestore
-  await setDoc(doc(db, "users", user.uid), {
-    name: "user.name",
-    email: user.email,
-    preferences: [],
-    activities: [],
-    stats: []
-  });
+      if (!docSnap.exists()) {
+        await setDoc(userRef, {
+          name: user.displayName || "Utilisateur",
+          email: user.email,
+          preferences: [],
+          activities: [],
+          stats: []
+        });
+      }
 
-  // Lecture des données pour affichage
-  const userDoc = await getDoc(doc(db, "users", user.uid));
-  const data = userDoc.exists() ? userDoc.data() : {};
+      const data = (await getDoc(userRef)).data();
 
-  // Affichage dans la page
-  document.getElementById("userName").textContent = data.name || user.displayName || "Utilisateur";
-  document.getElementById("userEmail").textContent = user.email;
+      document.getElementById("userName").textContent = data.name || user.displayName || "Utilisateur";
+      document.getElementById("userEmail").textContent = user.email;
 
-  const activities = data.activities || [];
-  const preferences = data.preferences || [];
-  const stats = data.stats || [];
+      const activities = data.activities || [];
+      const preferences = data.preferences || [];
+      const stats = data.stats || [];
 
-  const historyEl = document.getElementById("activityHistory");
-  historyEl.innerHTML = ""; // pour éviter les doublons
-  activities.forEach(act => {
-    const li = document.createElement("li");
-    li.textContent = act;
-    historyEl.appendChild(li);
-  });
+      const historyEl = document.getElementById("activityHistory");
+      historyEl.innerHTML = "";
+      activities.forEach(act => {
+        const li = document.createElement("li");
+        li.textContent = act;
+        historyEl.appendChild(li);
+      });
 
-  const prefEl = document.getElementById("userPreferences");
-  prefEl.innerHTML = "";
-  preferences.forEach(pref => {
-    const li = document.createElement("li");
-    li.textContent = pref;
-    prefEl.appendChild(li);
-  });
+      const prefEl = document.getElementById("userPreferences");
+      prefEl.innerHTML = "";
+      preferences.forEach(pref => {
+        const li = document.createElement("li");
+        li.textContent = pref;
+        prefEl.appendChild(li);
+      });
 
-  const statsEl = document.getElementById("userStats");
-  statsEl.innerHTML = "";
-  stats.forEach(stat => {
-    const div = document.createElement("div");
-    div.className = "stat-box";
-    div.innerHTML = `<h4>${stat.title}</h4><p>${stat.value}</p>`;
-    statsEl.appendChild(div);
-  });
-}
-</script>
+      const statsEl = document.getElementById("userStats");
+      statsEl.innerHTML = "";
+      stats.forEach(stat => {
+        const div = document.createElement("div");
+        div.className = "stat-box";
+        div.innerHTML = `<h4>${stat.title}</h4><p>${stat.value}</p>`;
+        statsEl.appendChild(div);
+      });
+    });
+
+    window.logout = async function () {
+      await signOut(auth);
+      window.location.href = "login.html";
+    };
+
+    window.editProfile = function () {
+      alert("Fonction à venir !");
+    };
+  </script>
 </body>
 </html>
