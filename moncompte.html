@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mon Compte | OSMOZ </title>
+  <title>Mon Compte | OSMOZ</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
   <style>
     :root {
       --bg-gradient: linear-gradient(135deg, #f9f4ef, #fffdf8);
@@ -185,7 +187,7 @@
 </head>
 <body>
   <nav>
-    <div class="logo">OSMOZ </div>
+    <div class="logo">OSMOZ</div>
     <ul>
       <li><a href="index.html">Accueil</a></li>
       <li><a href="fonctionnement.html">Fonctionnement</a></li>
@@ -194,78 +196,87 @@
     </ul>
   </nav>
 
-  <header>Mon Compte </header>
+  <header>Mon Compte</header>
 
   <section class="account-container">
     <div class="user-info">
       <span><strong>Nom :</strong> <span id="userName">Chargement...</span></span>
       <span><strong>Email :</strong> <span id="userEmail">Chargement...</span></span>
       <div class="user-actions">
-        <button><i class="fas fa-pen"></i> Modifier</button>
-        <button><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+        <button onclick="editProfile()"><i class="fas fa-pen"></i> Modifier</button>
+        <button onclick="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
       </div>
     </div>
 
     <div class="card">
       <h3><i class="fas fa-history"></i> Historique des activités</h3>
-      <ul id="activityHistory">
-        <!-- Inject user activity data -->
-      </ul>
+      <ul id="activityHistory"></ul>
     </div>
 
     <div class="card">
       <h3><i class="fas fa-sliders-h"></i> Préférences</h3>
-      <ul id="userPreferences">
-        <!-- Inject user preferences -->
-      </ul>
+      <ul id="userPreferences"></ul>
     </div>
 
     <div class="card">
       <h3><i class="fas fa-chart-line"></i> Statistiques</h3>
-      <div class="stats" id="userStats">
-        <!-- Inject user stats -->
-      </div>
+      <div class="stats" id="userStats"></div>
     </div>
   </section>
 
   <script>
-    // Simule une intégration dynamique — à remplacer par vos vraies données côté serveur
-    const userData = {
-      name: "Julie Martin",
-      email: "julie.martin@example.com",
-      preferences: ["Thème : Romantique", "Budget : Moyen", "Lieu favori : Bordeaux"],
-      activities: ["Dîner croisière sur la Garonne", "Atelier céramique", "Soirée jazz intimiste"],
-      stats: [
-        { title: "Activités générées", value: 28 },
-        { title: "Temps passé", value: "36h" },
-        { title: "Économie réalisée", value: "92€" },
-      ]
-    };
+    async function fetchUserData() {
+      try {
+        const res = await fetch('/api/user/profile', {
+          credentials: 'include'
+        });
+        if (!res.ok) throw new Error('Erreur de chargement du profil');
+        const user = await res.json();
 
-    document.getElementById("userName").textContent = userData.name;
-    document.getElementById("userEmail").textContent = userData.email;
-    
-    const historyEl = document.getElementById("activityHistory");
-    userData.activities.forEach(act => {
-      const li = document.createElement("li");
-      li.textContent = act;
-      historyEl.appendChild(li);
-    });
+        document.getElementById("userName").textContent = user.name;
+        document.getElementById("userEmail").textContent = user.email;
 
-    const prefEl = document.getElementById("userPreferences");
-    userData.preferences.forEach(pref => {
-      const li = document.createElement("li");
-      li.textContent = pref;
-      prefEl.appendChild(li);
-    });
+        const historyEl = document.getElementById("activityHistory");
+        user.activities.forEach(act => {
+          const li = document.createElement("li");
+          li.textContent = act;
+          historyEl.appendChild(li);
+        });
 
-    const statsEl = document.getElementById("userStats");
-    userData.stats.forEach(stat => {
-      const div = document.createElement("div");
-      div.className = "stat-box";
-      div.innerHTML = `<h4>${stat.title}</h4><p>${stat.value}</p>`;
-      statsEl.appendChild(div);
-    });
+        const prefEl = document.getElementById("userPreferences");
+        user.preferences.forEach(pref => {
+          const li = document.createElement("li");
+          li.textContent = pref;
+          prefEl.appendChild(li);
+        });
+
+        const statsEl = document.getElementById("userStats");
+        user.stats.forEach(stat => {
+          const div = document.createElement("div");
+          div.className = "stat-box";
+          div.innerHTML = `<h4>${stat.title}</h4><p>${stat.value}</p>`;
+          statsEl.appendChild(div);
+        });
+      } catch (err) {
+        alert('Impossible de charger les données utilisateur.');
+        console.error(err);
+      }
+    }
+
+    function editProfile() {
+      window.location.href = '/modifier-profil.html';
+    }
+
+    function logout() {
+      fetch('/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include'
+      }).then(() => {
+        window.location.href = '/connexion.html';
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', fetchUserData);
   </script>
 </body>
 </html>
