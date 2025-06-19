@@ -257,7 +257,7 @@ import { db } from "./firebase-config"; // assure-toi que tu as bien exporté db
 async function handleUserRegistration(user) {
   // Enregistrement dans Firestore
   await setDoc(doc(db, "users", user.uid), {
-    name: "username",
+    name: "user.name",
     email: user.email,
     preferences: [],
     activities: [],
