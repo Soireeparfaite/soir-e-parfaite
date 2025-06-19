@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Timeline OSMOZ ✨ - Sélecteur & Timeline</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364);
+      background-size: 400% 400%;
+      animation: gradient 12s ease infinite;
+      color: #fff;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    nav {
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 30px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    nav .logo {
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: #ff758c;
+    }
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 24px;
+    }
+    nav ul li a {
+      color: #ffccd5;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 2rem;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 0 10px #ff758c;
+    }
+
+    /* Form style */
+    #filter-form {
+      max-width: 700px;
+      margin: 0 auto 30px auto;
+      background: rgba(255 255 255 / 0.1);
+      padding: 20px 25px;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+    }
+    #filter-form label {
+      color: #ffccd5;
+      font-weight: 600;
+      user-select: none;
+    }
+    #filter-form input[type="number"],
+    #filter-form select,
+    #filter-form input[type="checkbox"] {
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      width: 150px;
+      color: #333;
+      outline: none;
+      cursor: pointer;
+    }
+    #filter-form button {
+      background: #ff758c;
+      border: none;
+      color: white;
+      padding: 12px 26px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    #filter-form button:hover {
+      background: #ff4a6e;
+    }
+
+    .timeline-container {
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      margin: auto;
+      border: 2px solid #ddd;
+      background: rgba(255,255,255,0.1);
+      border-radius: 16px;
+      overflow-x: auto;
+    }
+    .timeline {
+      display: flex;
+      position: relative;
+      height: 120px;
+      padding: 20px;
+      align-items: center;
+    }
+    .hour {
+      width: 80px;
+      text-align: center;
+      font-size: 12px;
+      color: #ccc;
+      position: relative;
+      user-select: none;
+    }
+    .hour::after {
+      content: '';
+      position: absolute;
+      height: 60px;
+      width: 1px;
+      background: #ccc;
+      top: 20px;
+      right: 0;
+    }
+    .activities {
+      position: absolute;
+      top: 20px;
+      left: 0;
+      right: 0;
+      bottom: 20px;
+    }
+    .activity {
+      position: absolute;
+      height: 60px;
+      background-color: #ff758c;
+      color: white;
+      border-radius: 12px;
+      padding: 10px;
+      overflow: hidden;
+      resize: horizontal;
+      min-width: 80px;
+      max-height: 60px;
+      white-space: nowrap;
+      cursor: move;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">OSMOZ</div>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="fonctionnement.html">Fonctionnement</a></li>
+      <li><a href="#">Tarifs</a></li>
+      <li><a href="generateur.html">Générer un menu</a></li>
+      <li><a href="inscription.html">Connexion / Inscription</a></li>
+    </ul>
+  </nav>
+
+  <header>Planifie ta journée de rêve ✨</header>
+
+  <form id="filter-form" onsubmit="return false;">
+    <label>Budget max (€)
+      <input type="number" id="budget" min="0" value="50" />
+    </label>
+
+    <label>Ambiance
+      <select id="theme">
+        <option value="">Peu importe</option>
+        <option value="romantique">Romantique</option>
+        <option value="sportive">Sportive</option>
+        <option value="insolite">Insolite</option>
+        <option value="gastronomique">Gastronomique</option>
+      </select>
+    </label>
+
+    <label>Durée max (heures)
+      <input type="number" id="duree" min="0.25" max="12" step="0.25" value="3" />
+    </label>
+
+    <label>
+      <input type="checkbox" id="reservable" />
+      Réservable en ligne uniquement
+    </label>
+
+    <label>
+      <input type="checkbox" id="veutManger" />
+      Inclure expériences culinaires
+    </label>
+
+    <button id="search-btn">Rechercher 🔎</button>
+  </form>
+
+  <div class="timeline-container">
+    <div class="timeline">
+      <div class="activities" id="activities"></div>
+      <script>
+        for (let i = 0; i < 24; i++) {
+          document.write(`<div class='hour'>${i}h</div>`);
+        }
+      </script>
+    </div>
+  </div>
+
+  <script>
+    // Base de données d'activités
+    const baseActivites = [
+      {
+        id: "solar_boat",
+        theme: "romantique",
+        title: "Croisière romantique en bateau solaire",
+        type: ["bateau"],
+        price: 85,
+        duration: 2,
+        reservable: true,
+        gps: { lat: 43.7034, lng: 7.2663 },
+        link: "https://getyourguide.com/solar-boat-nice",
+        startHour: 14 // heure de départ choisie fixe ici pour test
+      },
+      {
+        id: "canyoning_loup",
+        theme: "sportive",
+        title: "Canyoning dans les Gorges du Loup",
+        type: ["canyon"],
+        price: 55,
+        duration: 3,
+        reservable: true,
+        gps: { lat: 43.7350, lng: 6.9973 },
+        link: "https://funbooker.com/canyoning-gorges",
+        startHour: 9
+      },
+      {
+        id: "degustation_fromage",
+        theme: "gastronomique",
+        title: "Dégustation de fromages et vins",
+        type: ["food"],
+        price: 60,
+        duration: 1.5,
+        reservable: true,
+        gps: { lat: 43.7012, lng: 7.2695 },
+        link: "https://degustation-nice.fr",
+        startHour: 11
+      },
+      {
+        id: "marche_castel",
+        theme: "gastronomique",
+        title: "Marché du Château et street food niçoise",
+        type: ["food"],
+        price: 15,
+        duration: 1,
+        reservable: false,
+        gps: { lat: 43.6978, lng: 7.2816 },
+        link: "https://goo.gl/maps/castel-food",
+        startHour: 16
+      },
+      {
+        id: "randonnee_esterel",
+        theme: "sportive",
+        title: "Randonnée Estérel avec vue mer",
+        type: ["nature"],
+        price: 0,
+        duration: 3,
+        reservable: false,
+        gps: { lat: 43.4743, lng: 6.9374 },
+        link: "https://visorando.com/randonnee-esterel",
+        startHour: 7
+      }
+    ];
+
+    const activitiesContainer = document.getElementById("activities");
+    const searchBtn = document.getElementById("search-btn");
+
+    // Supprime toutes les activités affichées
+    function clearActivities() {
+      activitiesContainer.innerHTML = "";
+    }
+
+    // Crée un élément activité dans la timeline
+    function createActivity(title, startHour, durationHours) {
+      const activity = document.createElement("div");
+      activity.className = "activity";
+      activity.contentEditable = true;
+      activity.innerText = title;
+      activity.style.left = `${startHour * 80}px`;
+      activity.style.width = `${durationHours * 80}px`;
+      activitiesContainer.appendChild(activity);
+
+      let isDragging = false;
+      let isResizing = false;
+      let startX;
+      let initialLeft;
+      let initialWidth;
+
+      activity.addEventListener("mousedown", (e) => {
+        if (e.offsetX > activity.offsetWidth - 10) {
+          isResizing = true;
+          initialWidth = activity.offsetWidth;
+        } else {
+          isDragging = true;
+          initialLeft = activity.offsetLeft;
+        }
+        startX = e.clientX;
+        e.preventDefault();
+      });
+
+      document.addEventListener("mousemove", (e) => {
+        if (isDragging) {
+          const dx = e.clientX - startX;
+          let newLeft = initialLeft + dx;
+          if (newLeft < 0) newLeft = 0;
+          if (newLeft > activitiesContainer.clientWidth - activity.offsetWidth) newLeft = activitiesContainer.clientWidth - activity.offsetWidth;
+          activity.style.left = `${newLeft}px`;
+        } else if (isResizing) {
+          const dx = e.clientX - startX;
+          let newWidth = initialWidth + dx;
+          if (newWidth < 80) newWidth = 80;
+          if (newWidth > activitiesContainer.clientWidth - activity.offsetLeft) newWidth = activitiesContainer.clientWidth - activity.offsetLeft;
+          activity.style.width = `${newWidth}px`;
+        }
+      });
+
+      document.addEventListener("mouseup", () => {
+        isDragging = false;
+        isResizing = false;
+      });
+    }
+
+    // Filtrer les activités selon les critères du formulaire
+    function filtrerActivites() {
+      const budget = parseFloat(document.getElementById("budget").value);
+      const theme = document.getElementById("theme").value;
+      const duree = parseFloat(document.getElementById("duree").value);
+      const reservable = document.getElementById("reservable").checked;
+      const veutManger = document.getElementById("veutManger").checked;
+
+      return baseActivites.filter(act => {
+        if (act.price > budget) return false;
+        if (theme && act.theme !== theme) return false;
+        if (act.duration > duree) return false;
+        if (reservable && !act.reservable) return false;
+        if (veutManger && !act.type.includes("food")) return false;
+        return true;
+      });
+    }
+
+    // Quand on clique sur "Rechercher"
+    searchBtn.addEventListener("click", () => {
+      clearActivities();
+      const filtres = filtrerActivites();
+
+      if (filtres.length === 0) {
+        activitiesContainer.innerHTML = "<p style='color:#ffccd5; padding: 10px;'>Aucune activité trouvée 😢</p>";
+        return;
+      }
+
+      // Affiche chaque activité filtrée sur la timeline avec ses horaires
+      filtres.forEach(act => {
+        createActivity(act.title, act.startHour, act.duration);
+      });
+    });
+
+    // Chargement initial : affiche toutes les activités par défaut
+    window.onload = () => {
+      clearActivities();
+      baseActivites.forEach(act => createActivity(act.title, act.startHour, act.duration));
+    };
+  </script>
+</body>
+</html>
