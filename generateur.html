@@ -518,9 +518,11 @@ nav ul li a {
 
       const leftPx = (debut - heureDebutGlobal) * pxParHeure;
       const widthPx = duree * pxParHeure - 4;
+const actDiv = document.createElement('div');
+actDiv.className = 'activity' + (act.mealIncluded ? ' mealIncluded' : '');
 
-      const actDiv = document.createElement('div');
-     actDiv.style.position = 'absolute';
+// Style for a modern, chic look
+actDiv.style.position = 'absolute';
 actDiv.style.top = '20px';
 actDiv.style.left = `${leftPx}px`;
 actDiv.style.width = `${widthPx}px`;
@@ -543,11 +545,13 @@ actDiv.style.justifyContent = 'center';
 
 // Tooltip
 actDiv.title = `${act.title}\n${act.description}\nBudget: €${act.budget}\nDurée: ${act.duration}h`;
-      actDiv.textContent = act.title;
 
-      timeline.appendChild(actDiv);
+// Text Content
+actDiv.textContent = act.title;
 
-      rendreDragResize(actDiv, pxParHeure, heureDebutGlobal, heureFinGlobal);
+timeline.appendChild(actDiv);
+
+rendreDragResize(actDiv, pxParHeure, heureDebutGlobal, heureFinGlobal);
     });
   }
 
