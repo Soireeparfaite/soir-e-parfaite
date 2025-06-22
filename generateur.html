@@ -518,21 +518,29 @@
       const widthPx = duree * pxParHeure - 4;
 
       const actDiv = document.createElement('div');
-      actDiv.className = 'activity' + (act.mealIncluded ? ' mealIncluded' : '');
-      actDiv.style.position = 'absolute';
-      actDiv.style.top = '20px';
-      actDiv.style.left = `${leftPx}px`;
-      actDiv.style.width = `${widthPx}px`;
-      actDiv.style.height = '40px';
-      actDiv.style.background = '#90caf9';
-      actDiv.style.border = '1px solid #42a5f5';
-      actDiv.style.borderRadius = '4px';
-      actDiv.style.padding = '2px 6px';
-      actDiv.style.boxSizing = 'border-box';
-      actDiv.style.cursor = 'move';
-      actDiv.style.userSelect = 'none';
-      actDiv.title = `${act.title}\n${act.description}\nBudget: €${act.budget}\nDurée: ${act.duration}h`;
-      actDiv.textContent = act.title;
+     actDiv.style.position = 'absolute';
+actDiv.style.top = '20px';
+actDiv.style.left = `${leftPx}px`;
+actDiv.style.width = `${widthPx}px`;
+actDiv.style.height = '50px';
+actDiv.style.background = 'linear-gradient(90deg, #b30808, #ff7a7a)';
+actDiv.style.border = 'none';
+actDiv.style.borderRadius = '12px';
+actDiv.style.padding = '6px 12px';
+actDiv.style.boxSizing = 'border-box';
+actDiv.style.cursor = 'move';
+actDiv.style.userSelect = 'none';
+actDiv.style.color = '#fff';
+actDiv.style.fontWeight = '600';
+actDiv.style.fontSize = '14px';
+actDiv.style.fontFamily = '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
+actDiv.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.15)';
+actDiv.style.display = 'flex';
+actDiv.style.alignItems = 'center';
+actDiv.style.justifyContent = 'center';
+
+// Tooltip
+actDiv.title = `${act.title}\n${act.description}\nBudget: €${act.budget}\nDurée: ${act.duration}h`;
 
       timeline.appendChild(actDiv);
 
