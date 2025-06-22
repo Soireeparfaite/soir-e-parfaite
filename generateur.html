@@ -18,10 +18,10 @@
 
 
 nav {
-
+  position: fixed;
   top: 0;
   left: 0;
-
+  width: 100%;
   z-index: 999;
   background: rgb(239,231,220);
   color: rgb(0,72,174);
@@ -618,7 +618,6 @@ rendreDragResize(actDiv, pxParHeure, heureDebutGlobal, heureFinGlobal);
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const today = new Date();
   dateSpan.textContent = today.toLocaleDateString('fr-FR', options);
-    });
 </script>
 
 </body>
