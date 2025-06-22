@@ -6,106 +6,138 @@
 <title>Planificateur d'activités avec timeline</title>
 <style>
   body {
-    font-family: Arial, sans-serif;
-    margin: 2rem;
-    background: #f0f4f8;
-    color: #222;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    margin: 0;
+    padding: 2rem;
+    background: #eef3f8;
+    color: #1e1e2f;
+    line-height: 1.6;
   }
+
   h1 {
     text-align: center;
-    color: #0078d4;
+    color: #0057b7;
+    font-size: 2.2rem;
+    margin-bottom: 2rem;
   }
+
   form {
-    max-width: 700px;
+    max-width: 760px;
     margin: auto;
-    padding: 1rem;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 8px 8px 16px rgba(0,0,0,0.05), -8px -8px 16px rgba(255,255,255,0.8);
     display: flex;
-    gap: 1rem;
     flex-wrap: wrap;
-    justify-content: center;
+    gap: 1.5rem;
+    justify-content: space-between;
   }
+
   label {
     display: flex;
     flex-direction: column;
     font-weight: 600;
-    min-width: 150px;
+    color: #333;
+    flex: 1 1 200px;
   }
+
   select, input[type=number] {
-    margin-top: 0.3rem;
-    padding: 0.4rem;
+    margin-top: 0.5rem;
+    padding: 0.6rem 0.8rem;
     font-size: 1rem;
-  }
-  button {
-    padding: 0.6rem 1.4rem;
-    font-weight: 700;
-    background-color: #0078d4;
     border: none;
-    color: white;
-    border-radius: 6px;
-    cursor: pointer;
-    align-self: flex-end;
+    border-radius: 10px;
+    background: #f0f4f8;
+    box-shadow: inset 2px 2px 6px rgba(0,0,0,0.05), inset -2px -2px 6px rgba(255,255,255,0.6);
+    transition: all 0.2s ease-in-out;
   }
+
+  select:focus, input[type=number]:focus {
+    outline: none;
+    background: #e4ecf4;
+  }
+
+  button {
+    padding: 0.7rem 1.6rem;
+    font-weight: bold;
+    font-size: 1rem;
+    background: linear-gradient(to right, #0078d4, #005a9e);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.3s ease;
+  }
+
   button:hover {
-    background-color: #005a9e;
+    transform: translateY(-2px);
+    background: linear-gradient(to right, #005a9e, #004f8c);
   }
 
   #timeline-container {
-    margin: 2rem auto;
-    max-width: 900px;
-    background: white;
-    border-radius: 10px;
-    padding: 1rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin: 3rem auto;
+    max-width: 950px;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 8px 8px 16px rgba(0,0,0,0.05), -8px -8px 16px rgba(255,255,255,0.8);
     overflow-x: auto;
   }
+
   #timeline {
     position: relative;
     height: 100px;
-    border-top: 3px solid #0078d4;
-    border-bottom: 3px solid #0078d4;
+    border-top: 4px solid #0078d4;
+    border-bottom: 4px solid #0078d4;
     display: flex;
     gap: 1px;
   }
+
   .hour-block {
     flex: 1;
     text-align: center;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 0.9rem;
-    color: #555;
+    color: #444;
     border-left: 1px solid #ccc;
     position: relative;
+    padding-top: 0.5rem;
   }
+
   .hour-block:first-child {
     border-left: none;
   }
 
   .activity {
     position: absolute;
-    top: 10px;
+    top: 12px;
     background: #0078d4;
     color: white;
-    padding: 6px 10px;
-    border-radius: 6px;
+    padding: 6px 12px;
+    border-radius: 12px;
     font-weight: 600;
     font-size: 0.85rem;
-    cursor: pointer;
     white-space: nowrap;
-    box-shadow: 0 4px 8px rgba(0,120,212,0.4);
-    user-select: none;
+    box-shadow: 0 6px 12px rgba(0, 120, 212, 0.4);
+    transition: transform 0.2s ease;
   }
+
+  .activity:hover {
+    transform: scale(1.05);
+  }
+
   .activity.mealIncluded {
-    background: #28a745; /* vert pour repas inclus */
+    background: #28a745;
   }
+
   #resultats {
-    max-width: 700px;
-    margin: 1rem auto;
+    max-width: 760px;
+    margin: 2rem auto;
     background: white;
-    padding: 1rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 8px 8px 16px rgba(0,0,0,0.05), -8px -8px 16px rgba(255,255,255,0.8);
   }
 </style>
 </head>
