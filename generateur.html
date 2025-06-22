@@ -618,6 +618,21 @@ rendreDragResize(actDiv, pxParHeure, heureDebutGlobal, heureFinGlobal);
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const today = new Date();
   dateSpan.textContent = today.toLocaleDateString('fr-FR', options);
+   const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, (user) => {
+      const navAuth = document.getElementById("nav-auth");
+      const navUser = document.getElementById("nav-user");
+
+      if (user) {
+        if (navAuth) navAuth.classList.add("hidden");
+        if (navUser) navUser.classList.remove("hidden");
+      } else {
+        if (navAuth) navAuth.classList.remove("hidden");
+        if (navUser) navUser.classList.add("hidden");
+      }
+    });
 </script>
 
 </body>
