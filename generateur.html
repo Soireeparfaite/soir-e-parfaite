@@ -13,41 +13,43 @@
     color: #1e1e2f;
     line-height: 1.6;
   }
-      nav {
-      background: linear-gradient(rgb(239,231,220));
-      color: rgb(0,72,174);
-      display: flex;
-      justify-content: space-between;
-      padding: 16px 30px;
-      align-items: center;
+     nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999; /* pour qu'elle reste au-dessus */
+  
+  background: linear-gradient(rgb(239,231,220), rgb(255,255,255));
+  color: rgb(0,72,174);
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 30px;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* optionnel, pour un bel effet */
+}
 
-    }
+nav .logo {
+  font-weight: bold;
+  font-size: 2rem;
+  color: #b30808;
+}
 
-    nav .logo {
-      font-weight: bold;
-      font-size: 2rem;
-      color:#b30808 ;
-    }
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
 
-    nav ul {
-      display: flex;
-      list-style: none;
-      gap: 24px;
-      margin: 0;
-      padding: 0;
-      align-items: center;
-    }
-
-    nav ul li a {
-      text-decoration: none;     /* enlève le soulignement */
-      color: inherit;            /* prend la couleur du parent */
-      font-weight: normal;
-      color: #b30808;
-      text-decoration: none;
-      font-weight: bold;
-      font-weight: 1.5rem;
-    }
-
+nav ul li a {
+  text-decoration: none;
+  color: #b30808;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
   h1 {
     text-align: center;
     color: #b30808;
