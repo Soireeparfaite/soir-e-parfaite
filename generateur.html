@@ -4,6 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Planificateur d'activités avec timeline</title>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
 <style>
    body {
     font-family: 'Segoe UI', Roboto, sans-serif;
@@ -249,103 +252,60 @@ nav ul li a {
 </div>
 
 <div id="resultats"></div>
-
+<button id="validateProgram" style="margin: 20px auto; display: block; padding: 10px 20px; font-size: 16px;">
+  Valider le programme
+</button>
 <script>
-  // Activités (inchangé)
-  const activites = [
-    {
-      id: "rando_esterel",
-      title: "Randonnée Estérel avec vue mer",
-      phone: "",
-      reservationLink: "https://visorando.com/randonnee-esterel",
-      address: "Massif de l'Estérel, 83400 Fréjus",
-      description: "Explorez les roches rouges de l'Estérel et profitez d'un panorama à couper le souffle sur la Méditerranée.",
-      mealIncluded: false,
-      duration: 3,
-      primaryCategory: "matin",
-      secondaryCategory: "sportif",
-      budget: 0
-    },
-    {
-      id: "marche_castel",
-      title: "Marché du Château et street food niçoise",
-      phone: "",
-      reservationLink: "https://goo.gl/maps/castel-food",
-      address: "Place du Château, 06300 Nice",
-      description: "Parcourez les étals colorés du marché et dégustez socca, pissaladière et autres spécialités locales.",
-      mealIncluded: true,
-      duration: 1,
-      primaryCategory: "midi",
-      secondaryCategory: "gastronomique",
-      budget: 20
-    },
-    {
-      id: "musee_chagall",
-      title: "Musée Marc Chagall",
-      phone: "+33 4 97 18 53 77",
-      reservationLink: "https://musees-nice.org/chagall",
-      address: "Avenue Dr Ménard, 06000 Nice",
-      description: "Plongez dans l’œuvre biblique et colorée de Chagall, chef‑de‑file de l’art moderne.",
-      mealIncluded: false,
-      duration: 1.5,
-      primaryCategory: "matin",
-      secondaryCategory: "chill",
-      budget: 12
-    },
-    {
-      id: "cours_cuisine_niçoise",
-      title: "Cours de cuisine niçoise",
-      phone: "+33 4 93 16 82 40",
-      reservationLink: "https://www.latelierpastry.com",
-      address: "4 Rue Barillerie, 06300 Nice",
-      description: "Apprenez à préparer socca, pissaladière et tourte de blettes avec un chef local.",
-      mealIncluded: true,
-      duration: 2,
-      primaryCategory: "midi",
-      secondaryCategory: "gastronomique",
-      budget: 35
-    },
-    {
-      id: "canoe_parc_naturel_mercantour",
-      title: "Canoë dans le Parc du Mercantour",
-      phone: "+33 6 07 03 09 39",
-      reservationLink: "https://funbooker.com/canoe-mercantour",
-      address: "Lac de Saint-Cassien, 83540 Mons",
-      description: "Descendez les eaux turquoise du lac et ses criques sauvages en canoë.",
-      mealIncluded: false,
-      duration: 3,
-      primaryCategory: "après-midi",
-      secondaryCategory: "sportif",
-      budget: 25
-    },
-    {
-      id: "croisiere_soleil",
-      title: "Croisière au coucher du soleil",
-      phone: "+33 4 93 85 18 82",
-      reservationLink: "https://getyourguide.com/solar-boat-nice",
-      address: "Port Lympia, Quai Papacino, 06300 Nice",
-      description: "Naviguez à bord d’un bateau solaire et admirez le coucher de soleil sur la Baie des Anges.",
-      mealIncluded: false,
-      duration: 2,
-      primaryCategory: "soir",
-      secondaryCategory: "romantique",
-      budget: 40
-    },
-    {
-      id: "spectacle_soir",
-      title: "Spectacle au théâtre",
-      phone: "+33 4 93 82 50 50",
-      reservationLink: "https://theatrenice.fr",
-      address: "2 Avenue Saint-Jean-Baptiste, 06000 Nice",
-      description: "Profitez d’une soirée culturelle avec un spectacle de théâtre local.",
-      mealIncluded: false,
-      duration: 2,
-      primaryCategory: "soir",
-      secondaryCategory: "chill",
-      budget: 25
-    }
-  ];
+  const firebaseConfig = {
+      apiKey: "AIzaSyAPO0hI2RsAbZXSgw99shs8JO9_UbMbc5E",
+      authDomain: "soiree-parfaite.firebaseapp.com",
+      projectId: "soiree-parfaite",
+      storageBucket: "soiree-parfaite.appspot.com",
+      messagingSenderId: "420267229686",
+      appId: "1:420267229686:web:0395aa0dea26d5278e07d7",
+      measurementId: "G-KKF63BP0P1"
+  };
 
+  // Initialiser Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  // Cette variable contiendra la liste des activités récupérées depuis Firestore
+  let activites = [];
+
+  // Fonction pour charger les activités depuis Firestore
+  async function chargerActivites() {
+    try {
+      const snapshot = await db.collection('activites').get();
+      activites = snapshot.docs.map(doc => doc.data());
+      console.log("Activités chargées :", activites);
+    } catch (error) {
+      console.error("Erreur lors du chargement des activités :", error);
+    }
+  }
+
+  // On charge les activités au démarrage de la page, puis on initialise le formulaire et timeline
+  window.addEventListener('DOMContentLoaded', async () => {
+    await chargerActivites();
+
+    // Ici tu peux mettre tout le reste de ton code qui utilise "activites"
+    // Exemple : initialisation formulaire, timeline, date par défaut, etc.
+
+    // Exemple minimal :
+    const inputDate = document.getElementById('inputDate');
+    const todayISO = new Date().toISOString().split('T')[0];
+    inputDate.value = todayISO;
+
+    creerTimeline(8, 20);
+
+    const dateSpan = document.getElementById('date-experience');
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const today = new Date();
+    dateSpan.textContent = today.toLocaleDateString('fr-FR', options);
+
+    // Écoute du formulaire (déjà dans ton code, il faudra coller ça à la suite)
+  });
+  
   const form = document.getElementById('formFiltres');
   const timeline = document.getElementById('timeline');
   const resultats = document.getElementById('resultats');
@@ -633,11 +593,54 @@ rendreDragResize(actDiv, pxParHeure, heureDebutGlobal, heureFinGlobal);
         if (navUser) navUser.classList.add("hidden");
       }
     });
+document.getElementById('validateProgram').addEventListener('click', () => {
+  const timeline = document.getElementById('timeline');
+  const activitiesOnTimeline = timeline.querySelectorAll('.activity');
+  const heureDebutGlobal = Number(document.getElementById('inputHeureDebut').value);
+  const heureFinGlobal = Number(document.getElementById('inputHeureFin').value);
+  const totalHeures = heureFinGlobal - heureDebutGlobal;
+  const pxParHeure = (timeline.clientWidth || 900) / totalHeures;
+
+  let selectedActivities = [];
+
+  activitiesOnTimeline.forEach(actDiv => {
+    // Trouver l'activité associée via le titre
+    const act = activites.find(a => a.title === actDiv.textContent);
+    if (!act) return;
+
+    const leftPx = parseFloat(actDiv.style.left);
+    const widthPx = parseFloat(actDiv.style.width);
+
+    // Calcul des horaires précis
+    const heureDebut = heureDebutGlobal + (leftPx / pxParHeure);
+    const duree = widthPx / pxParHeure;
+    const heureFin = heureDebut + duree;
+
+    selectedActivities.push({
+      id: act.id,
+      title: act.title,
+      phone: act.phone,
+      reservationLink: act.reservationLink,
+      address: act.address,
+      description: act.description,
+      mealIncluded: act.mealIncluded,
+      duration: duree,
+      startTime: heureDebut,
+      endTime: heureFin,
+      budget: act.budget
+    });
+  });
+
+  // Trier les activités par heure de début croissante
+  selectedActivities.sort((a, b) => a.startTime - b.startTime);
+
+  // Stocker dans localStorage pour récupérer dans la page suivante
+  localStorage.setItem('planningActivities', JSON.stringify(selectedActivities));
+
+  // Rediriger vers la page récapitulatif (à créer)
+  window.location.href = 'recapitulatif.html';
+});
 </script>
 
 </body>
 </html>
-
-
-
-
