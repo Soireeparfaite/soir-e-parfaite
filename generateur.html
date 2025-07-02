@@ -455,69 +455,89 @@ nav ul li a {
   }
 
   // Afficher activités dans timeline avec drag & resize
-  function afficherActivitesSurTimeline(activitesFiltrees, heureDebutGlobal, heureFinGlobal) {
-    creerTimeline(heureDebutGlobal, heureFinGlobal);
+ function afficherActivitesSurTimeline(activitesFiltrees, heureDebutGlobal, heureFinGlobal) {
+  creerTimeline(heureDebutGlobal, heureFinGlobal);
 
-    const timelineWidth = timeline.clientWidth || 900;
-    const totalHeures = heureFinGlobal - heureDebutGlobal;
-    const pxParHeure = timelineWidth / totalHeures;
+  const timelineWidth = timeline.clientWidth || 900;
+  const totalHeures = heureFinGlobal - heureDebutGlobal;
+  const pxParHeure = timelineWidth / totalHeures;
 
-    // Supprimer anciennes activités
-    timeline.querySelectorAll('.activity').forEach(el => el.remove());
+  // Supprimer anciennes activités
+  timeline.querySelectorAll('.activity').forEach(el => el.remove());
 
-    // Créer activités
-    activitesFiltrees.forEach(act => {
-      const plage = categorieHorairePlages[act.primaryCategory];
-      if (!plage) return;
+  activitesFiltrees.forEach(act => {
+    const debut = Math.max(act.startTime, heureDebutGlobal);
+    let fin = debut + act.duration;
+    if (fin > heureFinGlobal) fin = heureFinGlobal;
 
-      let debut = Math.max(plage.debut, heureDebutGlobal);
-      let fin = Math.min(plage.fin, heureFinGlobal);
+    const duree = fin - debut;
+    if (duree <= 0) return;
 
-      let duree = act.duration;
-      if (debut + duree > fin) {
-        duree = fin - debut;
-      }
-      if (duree <= 0) return;
+    const leftPx = (debut - heureDebutGlobal) * pxParHeure;
+    const widthPx = duree * pxParHeure - 4;
 
-      const leftPx = (debut - heureDebutGlobal) * pxParHeure;
-      const widthPx = duree * pxParHeure - 4;
-const actDiv = document.createElement('div');
-actDiv.className = 'activity' + (act.mealIncluded ? ' mealIncluded' : '');
+    const actDiv = document.createElement('div');
+    actDiv.className = 'activity' + (act.mealIncluded ? ' mealIncluded' : '');
 
-// Style for a modern, chic look
-actDiv.style.position = 'absolute';
-actDiv.style.top = '20px';
-actDiv.style.left = `${leftPx}px`;
-actDiv.style.width = `${widthPx}px`;
-actDiv.style.height = '50px';
-actDiv.style.background = 'linear-gradient(90deg, #b30808, #ff7a7a)';
-actDiv.style.border = 'none';
-actDiv.style.borderRadius = '12px';
-actDiv.style.padding = '6px 12px';
-actDiv.style.boxSizing = 'border-box';
-actDiv.style.cursor = 'move';
-actDiv.style.userSelect = 'none';
-actDiv.style.color = '#fff';
-actDiv.style.fontWeight = '600';
-actDiv.style.fontSize = '14px';
-actDiv.style.fontFamily = '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
-actDiv.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.15)';
-actDiv.style.display = 'flex';
-actDiv.style.alignItems = 'center';
-actDiv.style.justifyContent = 'center';
+    // Styles
+    actDiv.style.position = 'absolute';
+    actDiv.style.top = '20px';
+    actDiv.style.left = `${leftPx}px`;
+    actDiv.style.width = `${widthPx}px`;
+    actDiv.style.height = '50px';
+    actDiv.style.background = 'linear-gradient(90deg, #b30808, #ff7a7a)';
+    actDiv.style.border = 'none';
+    actDiv.style.borderRadius = '12px';
+    actDiv.style.padding = '6px 12px';
+    actDiv.style.boxSizing = 'border-box';
+    actDiv.style.cursor = 'move';
+    actDiv.style.userSelect = 'none';
+    actDiv.style.color = '#fff';
+    actDiv.style.fontWeight = '600';
+    actDiv.style.fontSize = '14px';
+    actDiv.style.fontFamily = '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
+    actDiv.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.15)';
+    actDiv.style.display = 'flex';
+    actDiv.style.alignItems = 'center';
+    actDiv.style.justifyContent = 'center';
+    actDiv.style.position = 'absolute';
 
-// Tooltip
-actDiv.title = `${act.title}\n${act.description}\nBudget: €${act.budget}\nDurée: ${act.duration}h`;
+    actDiv.title = `${act.title}\n${act.description}\nBudget: €${act.budget}\nDurée: ${act.duration}h`;
+    actDiv.textContent = act.title;
 
-// Text Content
-actDiv.textContent = act.title;
+    // Ajout de la croix pour suppression
+    const btnSuppr = document.createElement('button');
+    btnSuppr.textContent = '×';
+    btnSuppr.style.position = 'absolute';
+    btnSuppr.style.top = '4px';
+    btnSuppr.style.right = '6px';
+    btnSuppr.style.background = 'transparent';
+    btnSuppr.style.border = 'none';
+    btnSuppr.style.color = 'white';
+    btnSuppr.style.fontSize = '18px';
+    btnSuppr.style.cursor = 'pointer';
+    btnSuppr.style.fontWeight = 'bold';
+    btnSuppr.style.lineHeight = '1';
+    btnSuppr.style.padding = '0';
+    btnSuppr.style.userSelect = 'none';
 
-timeline.appendChild(actDiv);
-
-rendreDragResize(actDiv, pxParHeure, heureDebutGlobal, heureFinGlobal);
+    // Le clic sur la croix ne déclenche pas la suppression sur la div entière
+    btnSuppr.addEventListener('click', (e) => {
+      e.stopPropagation();
+      supprimerActivite(act, heureDebutGlobal, heureFinGlobal);
     });
-  }
 
+    actDiv.appendChild(btnSuppr);
+
+    timeline.appendChild(actDiv);
+
+    // Supprimer l'événement click sur actDiv pour supprimer l'activité (sinon suppression au clic sur l'activité)
+    // Donc si tu veux supprimer en cliquant sur la div aussi, rajoute ça, sinon commente cette ligne:
+    // actDiv.addEventListener('click', () => supprimerActivite(act, heureDebutGlobal, heureFinGlobal));
+
+    rendreDragResize(actDiv, pxParHeure, heureDebutGlobal, heureFinGlobal);
+  });
+}
   // Validation date : pas dans le passé
   function validerDatePasPassee(inputDate) {
     if (!inputDate) return false;
@@ -527,46 +547,76 @@ rendreDragResize(actDiv, pxParHeure, heureDebutGlobal, heureFinGlobal);
     dateChoisie.setHours(0, 0, 0, 0);
     return dateChoisie >= today;
   }
+let selectedActs = [];
+form.addEventListener('submit', e => {
+  e.preventDefault();
 
-  form.addEventListener('submit', e => {
-    e.preventDefault();
+  const dateJour = document.getElementById('inputDate').value;
+  if (!validerDatePasPassee(dateJour)) {
+    alert("La date choisie ne peut pas être dans le passé.");
+    return;
+  }
 
-    const dateJour = document.getElementById('inputDate').value;
-    if (!validerDatePasPassee(dateJour)) {
-      alert("La date choisie ne peut pas être dans le passé.");
-      return;
+  const ambiance = document.getElementById('selectAmbiance').value;
+  const repasObligatoire = document.getElementById('selectRepas').value;
+  const budgetMax = Number(document.getElementById('inputBudget').value);
+  const heureDebutGlobal = Number(document.getElementById('inputHeureDebut').value);
+  const heureFinGlobal = Number(document.getElementById('inputHeureFin').value);
+
+  if (heureDebutGlobal >= heureFinGlobal) {
+    alert("L'heure de début doit être inférieure à l'heure de fin.");
+    return;
+  }
+
+  const actsFiltres = filtrerActivites(ambiance, repasObligatoire, budgetMax);
+
+  // Trier par durée croissante pour remplir plus facilement les petits créneaux
+  const sortedActs = actsFiltres.sort((a, b) => a.duration - b.duration);
+
+  selectedActs = [];
+  const occupiedSlots = []; // tableau des créneaux déjà pris : [début, fin]
+  let budgetTotal = 0;
+
+  for (let act of sortedActs) {
+    const plage = categorieHorairePlages[act.primaryCategory];
+    if (!plage) continue;
+
+    const dispoDebut = Math.max(plage.debut, heureDebutGlobal);
+    const dispoFin = Math.min(plage.fin, heureFinGlobal);
+
+    let placed = false;
+
+    // On teste les créneaux possibles par pas de 0.25h (15 min)
+    for (let start = dispoDebut; start <= dispoFin - act.duration; start += 0.25) {
+      const end = start + act.duration;
+
+      // Vérifier si ce créneau chevauche un créneau déjà pris
+      const overlap = occupiedSlots.some(slot => !(end <= slot[0] || start >= slot[1]));
+      if (!overlap && budgetTotal + act.budget <= budgetMax) {
+        selectedActs.push({...act, startTime: start, endTime: end});
+        occupiedSlots.push([start, end]);
+        budgetTotal += act.budget;
+        placed = true;
+        break;
+      }
     }
 
-    const ambiance = document.getElementById('selectAmbiance').value;
-    const repasObligatoire = document.getElementById('selectRepas').value;
-    const budgetMax = Number(document.getElementById('inputBudget').value);
-    const heureDebutGlobal = Number(document.getElementById('inputHeureDebut').value);
-    const heureFinGlobal = Number(document.getElementById('inputHeureFin').value);
-
-    if (heureDebutGlobal >= heureFinGlobal) {
-      alert("L'heure de début doit être inférieure à l'heure de fin.");
-      return;
+    if (!placed) {
+      // impossible de placer cette activité sans chevauchement ni dépassement budget
+      continue;
     }
+  }
 
-    const actsFiltres = filtrerActivites(ambiance, repasObligatoire, budgetMax);
+  afficherActivitesSurTimeline(selectedActs, heureDebutGlobal, heureFinGlobal);
 
-    // Vérifier que le budget total ne dépasse pas le budget max
-    const totalBudget = actsFiltres.reduce((sum, a) => sum + a.budget, 0);
-    if (totalBudget > budgetMax) {
-      alert(`Le budget total des activités (${totalBudget}€) dépasse le budget max demandé (${budgetMax}€).`);
-      return;
-    }
-
-    afficherActivitesSurTimeline(actsFiltres, heureDebutGlobal, heureFinGlobal);
-
-    resultats.innerHTML = `
-      <h2>Activités filtrées (${actsFiltres.length})</h2>
-      <ul>
-        ${actsFiltres.map(a => `<li><strong>${a.title}</strong> — Budget: €${a.budget}, Durée: ${a.duration}h, Repas inclus: ${a.mealIncluded ? "Oui" : "Non"}</li>`).join('')}
-      </ul>
-      <p><strong>Budget total estimé : €${totalBudget}</strong></p>
-    `;
-  });
+  resultats.innerHTML = `
+    <h2>Activités sélectionnées (${selectedActs.length})</h2>
+    <ul>
+      ${selectedActs.map(a => `<li><strong>${a.title}</strong> — Budget: €${a.budget}, Durée: ${a.duration}h, Repas inclus: ${a.mealIncluded ? "Oui" : "Non"}</li>`).join('')}
+    </ul>
+    <p><strong>Budget total estimé : €${budgetTotal}</strong></p>
+  `;
+});
 
   // Initialisation date par défaut à aujourd'hui
   const inputDate = document.getElementById('inputDate');
@@ -640,6 +690,23 @@ document.getElementById('validateProgram').addEventListener('click', () => {
   // Rediriger vers la page récapitulatif (à créer)
   window.location.href = 'recapitulatif.html';
 });
+function supprimerActivite(actASupprimer, heureDebutGlobal, heureFinGlobal) {
+  const index = selectedActs.findIndex(a => a.title === actASupprimer.title && a.startTime === actASupprimer.startTime);
+  if (index !== -1) {
+    selectedActs.splice(index, 1);
+  }
+
+  afficherActivitesSurTimeline(selectedActs, heureDebutGlobal, heureFinGlobal);
+
+  const budgetTotal = selectedActs.reduce((sum, a) => sum + a.budget, 0);
+  resultats.innerHTML = `
+    <h2>Activités sélectionnées (${selectedActs.length})</h2>
+    <ul>
+      ${selectedActs.map(a => `<li><strong>${a.title}</strong> — Budget: €${a.budget}, Durée: ${a.duration}h, Repas inclus: ${a.mealIncluded ? "Oui" : "Non"}</li>`).join('')}
+    </ul>
+    <p><strong>Budget total estimé : €${budgetTotal}</strong></p>
+  `;
+}
 </script>
 
 </body>
